@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Run Bud Support</title>
+  <title>RunBud Support</title>
   <style>
     * {
       margin: 0;
@@ -13,24 +13,30 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.6;
-      color: #333;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      background: #121212;
       min-height: 100vh;
       padding: 20px;
     }
     .container {
       max-width: 900px;
       margin: 0 auto;
-      background: white;
+      background: #1c1d22;
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
       overflow: hidden;
+      border: 1px solid #2a2b30;
     }
     .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #007aff 0%, #0051d5 100%);
       color: white;
       padding: 60px 40px;
       text-align: center;
+    }
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
     }
     .header h1 {
       font-size: 2.5em;
@@ -48,21 +54,21 @@
       margin-bottom: 50px;
     }
     .section h2 {
-      color: #667eea;
+      color: #007aff;
       font-size: 1.8em;
       margin-bottom: 20px;
       padding-bottom: 10px;
-      border-bottom: 3px solid #667eea;
+      border-bottom: 3px solid #007aff;
     }
     .section h3 {
-      color: #764ba2;
+      color: #007aff;
       font-size: 1.3em;
       margin-top: 30px;
       margin-bottom: 15px;
     }
     .section p {
       margin-bottom: 15px;
-      color: #555;
+      color: #e0e0e0;
       font-size: 1.05em;
     }
     .contact-grid {
@@ -72,23 +78,25 @@
       margin-top: 30px;
     }
     .contact-card {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: #2a2b30;
       padding: 30px;
       border-radius: 12px;
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid #3a3b40;
     }
     .contact-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
+      border-color: #007aff;
     }
     .contact-card h3 {
-      color: #667eea;
+      color: #007aff;
       margin: 15px 0 10px 0;
       font-size: 1.2em;
     }
     .contact-card a {
-      color: #764ba2;
+      color: #007aff;
       text-decoration: none;
       font-weight: 600;
       word-break: break-word;
@@ -96,29 +104,32 @@
     .contact-card a:hover {
       text-decoration: underline;
     }
+    .contact-card p {
+      color: #b0b0b0;
+    }
     .icon {
       font-size: 2.5em;
       margin-bottom: 10px;
     }
     .faq-item {
-      background: #f8f9fa;
+      background: #2a2b30;
       padding: 25px;
       margin-bottom: 15px;
       border-radius: 10px;
-      border-left: 4px solid #667eea;
+      border-left: 4px solid #007aff;
       transition: background 0.3s ease;
     }
     .faq-item:hover {
-      background: #e9ecef;
+      background: #33343a;
     }
     .faq-item h3 {
-      color: #667eea;
+      color: #007aff;
       margin: 0 0 10px 0;
       font-size: 1.2em;
     }
     .faq-item p {
       margin: 0;
-      color: #666;
+      color: #d0d0d0;
     }
     .feature-list {
       display: grid;
@@ -127,7 +138,7 @@
       margin-top: 20px;
     }
     .feature-item {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #007aff 0%, #0051d5 100%);
       color: white;
       padding: 20px;
       border-radius: 10px;
@@ -135,22 +146,31 @@
       font-weight: 600;
     }
     .footer {
-      background: #2d3748;
+      background: #0a0a0a;
       color: white;
       text-align: center;
       padding: 30px;
     }
     .footer a {
-      color: #667eea;
+      color: #007aff;
       text-decoration: none;
       font-weight: 600;
     }
     .footer a:hover {
       text-decoration: underline;
     }
+    ul {
+      margin-left: 20px;
+      margin-top: 10px;
+      color: #d0d0d0;
+    }
     @media (max-width: 768px) {
       .header {
         padding: 40px 20px;
+      }
+      .logo {
+        width: 100px;
+        height: 100px;
       }
       .header h1 {
         font-size: 2em;
@@ -167,7 +187,8 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>🏃 Run Bud Support</h1>
+      <img src="runbudapplogo.png" alt="RunBud Logo" class="logo">
+      <h1>RunBud Support</h1>
       <p>Your running companion for tracking progress and staying motivated</p>
     </div>
 
@@ -179,14 +200,14 @@
           <div class="contact-card">
             <div class="icon">📧</div>
             <h3>Email Support</h3>
-            <a href="mailto:support@runbudapp.com">support@runbudapp.com</a>
-            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Response within 24-48 hours</p>
+            <a href="mailto:jolumobuhelp@gmail.com">jolumobuhelp@gmail.com</a>
+            <p style="margin-top: 10px; font-size: 0.9em;">Response within 24-48 hours</p>
           </div>
           <div class="contact-card">
             <div class="icon">🌐</div>
             <h3>Website</h3>
-            <a href="https://runbudapp.com" target="_blank">runbudapp.com</a>
-            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Visit our homepage</p>
+            <a href="https://jolumobu.github.io/runbud/" target="_blank">jolumobu.github.io/runbud</a>
+            <p style="margin-top: 10px; font-size: 0.9em;">Visit our homepage</p>
           </div>
         </div>
       </div>
@@ -195,13 +216,13 @@
         <h2>Frequently Asked Questions</h2>
         
         <div class="faq-item">
-          <h3>How do I get started with Run Bud?</h3>
+          <h3>How do I get started with RunBud?</h3>
           <p>Simply download the app, create your account, and start tracking your first run! The app will guide you through the initial setup and help you set your running goals.</p>
         </div>
 
         <div class="faq-item">
-          <h3>What features does Run Bud offer?</h3>
-          <p>Run Bud provides GPS tracking, pace monitoring, distance logging, personalized running plans, progress analytics, achievement badges, and social features to connect with other runners.</p>
+          <h3>What features does RunBud offer?</h3>
+          <p>RunBud provides GPS tracking, pace monitoring, distance logging, personalized running plans, progress analytics, achievement badges, and social features to connect with other runners.</p>
         </div>
 
         <div class="faq-item">
@@ -210,33 +231,28 @@
         </div>
 
         <div class="faq-item">
-          <h3>Can I sync Run Bud with other fitness apps?</h3>
-          <p>Yes! Run Bud integrates with popular fitness platforms and health apps. Check the app settings for available integrations.</p>
+          <h3>Can I sync RunBud with other fitness apps?</h3>
+          <p>Yes! RunBud integrates with popular fitness platforms and health apps. Check the app settings for available integrations.</p>
         </div>
 
         <div class="faq-item">
-          <h3>Does Run Bud work offline?</h3>
+          <h3>Does RunBud work offline?</h3>
           <p>Yes, you can track your runs without an internet connection. Your data will sync automatically when you're back online.</p>
         </div>
 
         <div class="faq-item">
           <h3>How do I report a bug or technical issue?</h3>
-          <p>Please email us at support@runbudapp.com with details about the issue, including your device model and app version. Screenshots are helpful too!</p>
+          <p>Please email us at jolumobuhelp@gmail.com with details about the issue, including your device model and app version. Screenshots are helpful too!</p>
         </div>
 
         <div class="faq-item">
-          <h3>Is there a subscription fee?</h3>
-          <p>Run Bud offers both free and premium tiers. The free version includes core tracking features, while premium unlocks advanced analytics, custom training plans, and ad-free experience.</p>
-        </div>
-
-        <div class="faq-item">
-          <h3>How do I cancel my subscription?</h3>
-          <p>You can manage or cancel your subscription through your device's app store settings (App Store for iOS, Google Play for Android). For assistance, contact us at support@runbudapp.com.</p>
+          <h3>Is RunBud free to use?</h3>
+          <p>Yes! RunBud is completely free to use with all features available at no cost. We're committed to making running tracking accessible to everyone.</p>
         </div>
       </div>
 
       <div class="section">
-        <h2>What Makes Run Bud Special</h2>
+        <h2>What Makes RunBud Special</h2>
         <div class="feature-list">
           <div class="feature-item">🎯 Goal Setting</div>
           <div class="feature-item">📊 Progress Tracking</div>
@@ -251,11 +267,11 @@
 
       <div class="section">
         <h2>Need More Help?</h2>
-        <p>If you couldn't find the answer to your question, don't hesitate to reach out. Our support team is passionate about helping you make the most of Run Bud.</p>
+        <p>If you couldn't find the answer to your question, don't hesitate to reach out. Our support team is passionate about helping you make the most of RunBud.</p>
         <p>When contacting support, please include:</p>
-        <ul style="margin-left: 20px; margin-top: 10px; color: #555;">
+        <ul>
           <li>Your device model and operating system version</li>
-          <li>Run Bud app version (found in Settings)</li>
+          <li>RunBud app version (found in Settings)</li>
           <li>A detailed description of your question or issue</li>
           <li>Screenshots if applicable</li>
         </ul>
@@ -263,10 +279,10 @@
     </div>
 
     <div class="footer">
-      <p>&copy; 2025 Run Bud. All rights reserved.</p>
+      <p>&copy; 2025 RunBud. All rights reserved.</p>
       <p style="margin-top: 10px;">
-        <a href="https://runbudapp.com">Homepage</a> | 
-        <a href="mailto:support@runbudapp.com">Support</a>
+        <a href="https://jolumobu.github.io/runbud/">Homepage</a> | 
+        <a href="mailto:jolumobuhelp@gmail.com">Support</a>
       </p>
     </div>
   </div>
