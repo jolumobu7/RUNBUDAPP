@@ -1,0 +1,709 @@
+/* RunBud website styles. One file, no build step. */
+
+:root {
+  --paper: #ffffff;
+  --mist: #f2f2f7;
+  --line: #d1d1d6;
+  --ink: #1c1c1e;
+  --slate: #6b6b72;
+  --blue: #005fcc;
+  --blue-dark: #004ca3;
+  --blue-tint: #e6f0fc;
+
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --wrap: 68rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--blue);
+}
+
+a:hover {
+  color: var(--blue-dark);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0.5rem;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  z-index: 10;
+}
+
+.skip:focus {
+  left: 0.5rem;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Typography ---------- */
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-weight: 800;
+  font-variation-settings: "wdth" 112;
+  font-size: clamp(2.4rem, 5.6vw, 4.1rem);
+  line-height: 1.02;
+}
+
+h2 {
+  font-weight: 750;
+  font-variation-settings: "wdth" 108;
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  line-height: 1.1;
+}
+
+h3 {
+  font-weight: 650;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+p {
+  margin: 0 0 1rem;
+  max-width: 62ch;
+}
+
+.lede {
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 34rem;
+}
+
+.small {
+  font-size: 0.92rem;
+  color: var(--slate);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.9rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variation-settings: "wdth" 112;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+
+.brand img {
+  height: 2.2rem;
+  width: auto;
+  border-radius: 8px;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.8rem, 2.4vw, 1.6rem);
+}
+
+.site-nav a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+.site-nav a:hover {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.site-nav .nav-extra {
+  display: none;
+}
+
+@media (min-width: 46rem) {
+  .site-nav .nav-extra {
+    display: inline;
+  }
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-block;
+  background: var(--blue);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.8rem 1.25rem;
+  border-radius: 8px;
+  line-height: 1.2;
+}
+
+.btn:hover {
+  background: var(--blue-dark);
+  color: #fff;
+}
+
+.btn-quiet {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+.btn-quiet:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.6rem 0 1rem;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.hero-grid {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 58rem) {
+  .hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 3.5rem;
+  }
+}
+
+.hero h1 {
+  margin-bottom: 1.4rem;
+  max-width: 13ch;
+}
+
+/* The lane strip: a stretch of blue track with two white lane lines. */
+.lanes {
+  height: 1.5rem;
+  background:
+    linear-gradient(#fff, #fff) 0 0.45rem / 100% 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 0.9rem / 100% 2px no-repeat,
+    var(--blue);
+}
+
+/* ---------- Example week card ---------- */
+
+.week {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  padding: 1.1rem 1.2rem 1.2rem;
+}
+
+.week-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.week-head h2 {
+  font-size: 1.15rem;
+  font-variation-settings: "wdth" 100;
+}
+
+.tag {
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.week ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.week li {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  gap: 0.2rem 0.6rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--mist);
+}
+
+.week li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.day {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.session {
+  font-size: 0.98rem;
+  line-height: 1.3;
+}
+
+.nums {
+  grid-column: 2;
+  font-size: 0.85rem;
+  color: var(--slate);
+  font-variant-numeric: tabular-nums;
+}
+
+.bars {
+  grid-column: 2;
+  display: grid;
+  gap: 3px;
+  margin-top: 0.3rem;
+}
+
+.bar {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.bar-plan {
+  background: var(--line);
+  width: calc(var(--plan) * 1%);
+}
+
+.bar-done {
+  background: var(--blue);
+  width: calc(var(--done) * 1%);
+  transform-origin: left center;
+  animation: fill 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 110ms + 250ms);
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.week-foot {
+  margin: 0.9rem 0 0;
+  font-size: 0.88rem;
+  color: var(--slate);
+}
+
+.legend {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.legend span::before {
+  content: "";
+  display: inline-block;
+  width: 1.2rem;
+  height: 6px;
+  border-radius: 3px;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
+
+.legend .l-plan::before {
+  background: var(--line);
+}
+
+.legend .l-done::before {
+  background: var(--blue);
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+
+.section-mist {
+  background: var(--mist);
+}
+
+.section-head {
+  display: grid;
+  gap: 0.8rem;
+  margin-bottom: 2.2rem;
+}
+
+.section-head p {
+  margin: 0;
+  color: var(--slate);
+  font-size: 1.1rem;
+}
+
+.status {
+  display: inline-block;
+  width: fit-content;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--blue);
+  background: var(--blue-tint);
+  padding: 0.15rem 0.7rem;
+  border-radius: 99px;
+}
+
+/* What is in the app today: a results sheet, not a card grid. */
+.sheet {
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.sheet > div {
+  display: grid;
+  gap: 0.2rem 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 40rem) {
+  .sheet > div {
+    grid-template-columns: 13rem 1fr;
+  }
+}
+
+.sheet dt {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: 1.1rem;
+}
+
+.sheet dd {
+  margin: 0;
+  color: var(--ink);
+  max-width: 52ch;
+}
+
+/* Coming soon: a real sequence, so these steps are numbered. */
+.steps {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  display: grid;
+  gap: 1.6rem;
+}
+
+@media (min-width: 52rem) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.steps li {
+  border-top: 3px solid var(--ink);
+  padding-top: 1rem;
+}
+
+.steps .n {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variation-settings: "wdth" 112;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--blue);
+  margin-bottom: 0.6rem;
+}
+
+.steps h3 {
+  margin-bottom: 0.4rem;
+}
+
+.steps p {
+  margin: 0;
+  color: var(--slate);
+}
+
+.note {
+  border-left: 3px solid var(--blue);
+  padding: 0.2rem 0 0.2rem 1rem;
+  max-width: 46rem;
+}
+
+.note p {
+  margin: 0;
+}
+
+/* Coaches */
+.split {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 52rem) {
+  .split {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.ticks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ticks li {
+  padding: 0.7rem 0 0.7rem 1.8rem;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+
+.ticks li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.25rem;
+  width: 0.9rem;
+  height: 2px;
+  background: var(--blue);
+}
+
+/* Support */
+.contact {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.4rem;
+  background: var(--paper);
+}
+
+.contact h3 {
+  margin-bottom: 0.5rem;
+}
+
+.contact p {
+  margin-bottom: 0.8rem;
+}
+
+.checklist {
+  margin: 0.6rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--slate);
+  font-size: 0.97rem;
+}
+
+details {
+  border-top: 1px solid var(--line);
+}
+
+details:last-of-type {
+  border-bottom: 1px solid var(--line);
+}
+
+summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1rem 2rem 1rem 0;
+  font-weight: 600;
+  position: relative;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::after {
+  content: "+";
+  position: absolute;
+  right: 0.2rem;
+  top: 0.85rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--blue);
+}
+
+details[open] summary::after {
+  content: "\2212";
+}
+
+details p {
+  margin: 0 0 1rem;
+  color: var(--slate);
+}
+
+/* Footer */
+.site-footer {
+  padding-block: 2rem 2.5rem;
+  font-size: 0.92rem;
+  color: var(--slate);
+}
+
+.site-footer .wrap {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.site-footer p {
+  margin: 0;
+  max-width: 70ch;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .bar-done {
+    animation: none;
+  }
+}
+
+/* ---------- Privacy policy page ---------- */
+
+.policy {
+  padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem);
+}
+
+.policy h1 {
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  margin-bottom: 0.6rem;
+}
+
+.policy .meta {
+  color: var(--slate);
+  margin-bottom: 2rem;
+}
+
+.policy h2 {
+  font-size: 1.45rem;
+  font-variation-settings: "wdth" 104;
+  margin: 2.4rem 0 0.7rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+
+.policy h3 {
+  margin: 1.4rem 0 0.4rem;
+}
+
+.policy ul {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+  max-width: 62ch;
+}
+
+.policy li {
+  margin-bottom: 0.4rem;
+}
+
+.policy-summary {
+  background: var(--mist);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  max-width: 46rem;
+  margin-bottom: 1rem;
+}
+
+.policy-summary h2 {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  border: 0;
+  font-size: 1.15rem;
+}
+
+.policy-summary ul {
+  margin-bottom: 0;
+}
+
+.toc {
+  columns: 2 16rem;
+  column-gap: 2rem;
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+  max-width: 46rem;
+}
+
+.toc li {
+  margin-bottom: 0.3rem;
+  break-inside: avoid;
+}
