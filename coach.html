@@ -15,9 +15,8 @@
       }
     })();
   </script>
-  <title>Coach dashboard | RunBud</title>
+  <title>Coach dashboard demo | RunBud</title>
   <meta name="description" content="Preview of the RunBud coach dashboard: plan vs done, team load, check-in flags and each athlete's training, by event group.">
-  <meta name="robots" content="noindex">
   <link rel="icon" href="RunBudAppLogo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +28,7 @@
   <div class="glow" aria-hidden="true"></div>
 
   <div class="sample-banner" role="note">
-    Preview with sample data. Coach accounts open with the spring 2027 pilot. <a href="index.html#coaches">Ask about the pilot</a>
+    Interactive demo with sample athletes. Nothing you change here is saved. Coach accounts open with the spring 2027 pilot. <a href="mailto:jolumobuhelp@gmail.com?subject=RunBud%20coach%20pilot">Ask about the pilot</a>
   </div>
 
   <header class="topbar">
@@ -51,10 +50,10 @@
     <span class="pill pill-stat">Completion <b>83%</b></span>
 
     <nav class="tabs" aria-label="Dashboard sections">
-      <a class="tab is-active" href="#" aria-current="page">Dashboard</a>
-      <a class="tab" href="#plan">Plan</a>
-      <a class="tab" href="#athletes">Athletes</a>
-      <a class="tab" href="#messages">Messages</a>
+      <a class="tab is-active" href="#dashboard" data-view="dashboard" aria-current="page">Dashboard</a>
+      <a class="tab" href="#plan" data-view="plan">Plan</a>
+      <a class="tab" href="#athletes" data-view="athletes">Athletes</a>
+      <a class="tab" href="#messages" data-view="messages">Messages</a>
     </nav>
 
     <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme">
@@ -65,6 +64,7 @@
   </header>
 
   <main class="dash">
+   <div class="view" id="view-dashboard" data-view="dashboard">
     <section class="hello">
       <h1>Welcome back, Coach</h1>
       <p>Here's how your team's week is going.</p>
@@ -152,7 +152,7 @@
         </article>
       </div>
 
-      <article class="card workout" id="plan">
+      <article class="card workout">
         <div class="card-head">
           <div>
             <span class="tag tag-sprints">Sprints</span>
@@ -172,13 +172,12 @@
           <li><span>Cool-down</span>800m jog, static stretch</li>
         </ol>
         <div class="workout-actions">
-          <button class="btn">Edit day</button>
-          <button class="btn btn-quiet">Copy to next week</button>
+          <a class="btn" href="#plan" data-view="plan">Open the week plan</a>
         </div>
       </article>
 
       <article class="card attention">
-        <div class="card-head"><h2>Needs attention</h2><a class="see-all" href="#athletes">See all</a></div>
+        <div class="card-head"><h2>Needs attention</h2><a class="see-all" href="#athletes" data-view="athletes">See all</a></div>
         <ul class="people">
           <li>
             <span class="person-avatar" style="--hue:200">ML</span>
@@ -202,7 +201,7 @@
 
     <!-- Row 4: athletes table + schedule -->
     <section class="grid grid-bottom">
-      <article class="card table-card" id="athletes">
+      <article class="card table-card">
         <div class="card-head"><h2>Athletes</h2><span class="muted" id="athlete-count"></span></div>
         <div class="table-wrap">
           <table>
@@ -237,10 +236,85 @@
       </article>
     </section>
 
-    <section class="card messages" id="messages">
-      <div class="card-head"><h2>Messages</h2><span class="pill small">School can review</span></div>
-      <p class="muted">Team and event-group chats. Every coach–athlete conversation is visible to your school's admins. Coming with the pilot.</p>
+   </div>
+
+   <!-- PLAN: post the week, choose when athletes see each day -->
+   <div class="view" id="view-plan" data-view="plan" hidden>
+    <section class="hello">
+      <h1>Week plan</h1>
+      <p>Post each day for the team or one event group, and choose when athletes can see it.</p>
     </section>
+    <div class="plan-bar">
+      <div class="chips" id="plan-group-chips" role="group" aria-label="Who this plan is for"></div>
+      <div class="plan-actions">
+        <button class="btn btn-quiet" id="copy-week" type="button">Copy to next week</button>
+      </div>
+    </div>
+    <section class="week-grid" id="week-grid" aria-label="This week's plan"></section>
+   </div>
+
+   <!-- ATHLETES -->
+   <div class="view" id="view-athletes" data-view="athletes" hidden>
+    <section class="hello">
+      <h1>Athletes</h1>
+      <p>Sort and filter by event group. Click an athlete to see their week.</p>
+    </section>
+    <div class="plan-bar">
+      <div class="chips" id="athlete-chips" role="group" aria-label="Filter by event group"></div>
+      <label class="search">
+        <span class="sr-only">Search athletes</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="athlete-search" type="search" placeholder="Search athletes">
+      </label>
+    </div>
+    <section class="card table-card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col"><button class="sort" data-sort="n">Athlete</button></th>
+              <th scope="col"><button class="sort" data-sort="g">Group</button></th>
+              <th scope="col"><button class="sort" data-sort="done">Done</button></th>
+              <th scope="col"><button class="sort" data-sort="load">Load</button></th>
+              <th scope="col"><button class="sort" data-sort="sleep">Sleep</button></th>
+              <th scope="col"><button class="sort" data-sort="sore">Sore</button></th>
+              <th scope="col">Best mark</th>
+            </tr>
+          </thead>
+          <tbody id="athlete-rows-full"></tbody>
+        </table>
+      </div>
+    </section>
+   </div>
+
+   <!-- MESSAGES -->
+   <div class="view" id="view-messages" data-view="messages" hidden>
+    <section class="hello">
+      <h1>Messages</h1>
+      <p>Team and event-group chats. Every coach and athlete conversation is visible to your school's admins.</p>
+    </section>
+    <section class="chat card">
+      <aside class="chat-list" id="chat-list" aria-label="Conversations"></aside>
+      <div class="chat-main">
+        <div class="chat-head">
+          <div>
+            <h2 id="chat-title">Chat</h2>
+            <p class="muted" id="chat-members"></p>
+          </div>
+          <span class="pill small monitored">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg>
+            School admins can see this chat
+          </span>
+        </div>
+        <ol class="thread" id="thread"></ol>
+        <form class="composer" id="composer">
+          <label class="sr-only" for="message-input">Message</label>
+          <input id="message-input" type="text" placeholder="Write a message" autocomplete="off">
+          <button class="btn" type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+   </div>
 
     <footer class="dash-foot">
       <a href="index.html">RunBud home</a>
@@ -248,5 +322,57 @@
       <span>RunBud shares training information, not medical advice.</span>
     </footer>
   </main>
+
+  <!-- Day editor -->
+  <dialog class="sheet" id="day-dialog" aria-labelledby="day-dialog-title">
+    <form method="dialog" id="day-form">
+      <div class="sheet-head">
+        <h2 id="day-dialog-title">Edit day</h2>
+        <button class="icon-btn" value="cancel" aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <label class="field">Workout name
+        <input id="f-title" type="text" placeholder="e.g. Speed endurance">
+      </label>
+      <label class="field">For
+        <select id="f-group"></select>
+      </label>
+      <fieldset class="field">
+        <legend>Parts</legend>
+        <div id="f-parts"></div>
+        <button class="btn btn-quiet small-btn" type="button" id="add-part">Add part</button>
+      </fieldset>
+      <label class="field">Athletes can see it
+        <select id="f-visible">
+          <option value="now">Now</option>
+          <option value="evening">The night before, 8:00 PM</option>
+          <option value="morning">That morning, 6:00 AM</option>
+          <option value="hidden">Hidden for now</option>
+        </select>
+      </label>
+      <div class="sheet-actions">
+        <button class="btn btn-quiet" type="button" id="clear-day">Make it a rest day</button>
+        <button class="btn" value="save" id="save-day">Save day</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Athlete detail -->
+  <dialog class="sheet" id="athlete-dialog" aria-labelledby="athlete-name">
+    <div class="sheet-head">
+      <div class="who">
+        <span class="person-avatar" id="athlete-avatar"></span>
+        <div><h2 id="athlete-name">Athlete</h2><small id="athlete-events"></small></div>
+      </div>
+      <form method="dialog"><button class="icon-btn" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>
+    </div>
+    <div class="athlete-stats" id="athlete-stats"></div>
+    <h3 class="sheet-sub">This week</h3>
+    <ul class="athlete-week" id="athlete-week"></ul>
+    <p class="hint">Shown only because this athlete shares sessions and check-ins with the team.</p>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
