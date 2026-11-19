@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("runbud-theme");
+        document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
+  <title>Data we collect | RunBud</title>
+  <meta name="description" content="Every type of data RunBud collects, why, where it is stored, who can see it and how long it is kept.">
+  <link rel="icon" href="RunBudAppLogo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <img src="RunBudAppLogo.png" alt="" width="36" height="36">
+        RunBud
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a class="nav-extra" href="index.html#app">In the app</a>
+        <a class="nav-extra" href="index.html#coaches">Coaches</a>
+        <a class="nav-extra" href="about.html">About</a>
+        <a class="nav-demo" href="coach.html">Coach demo</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="policy">
+    <div class="wrap">
+      <h1>Data we collect</h1>
+      <p class="meta">Updated November 19, 2026. This page lists every kind of data RunBud handles. It goes with our <a href="privacy.html">privacy policy</a>.</p>
+
+      <div class="policy-summary">
+        <h2>The short version</h2>
+        <ul>
+          <li>Most of your training data stays on your phone today.</li>
+          <li>Your account (email and sign-in) is stored with Google Firebase.</li>
+          <li>Apple Health data is read only with your permission, one switch per metric, and is never written back.</li>
+          <li>No third-party AI service receives your data. No advertising trackers.</li>
+          <li>Items marked <span class="badge-soon">Coming</span> are not collected yet. We'll update this page and ask in the app first.</li>
+        </ul>
+      </div>
+
+      <h2 id="app">In the app</h2>
+      <div class="doc-wrap">
+      <table class="doc-table">
+        <thead><tr><th scope="col">Data</th><th scope="col">Why</th><th scope="col">Where it's stored</th><th scope="col">Who can see it</th><th scope="col">How long</th></tr></thead>
+        <tbody>
+          <tr><td>Email address, password (hashed), phone number if you sign in by phone</td><td>Create and secure your account</td><td>Google Firebase Authentication</td><td>You; RunBud for support</td><td>Until you delete your account</td></tr>
+          <tr><td>Profile: age, height, weight, experience level, units, app color</td><td>Personalize calculators and units</td><td>On your phone</td><td>You</td><td>Until you delete it or the app</td></tr>
+          <tr><td>Training sessions: date, type, planned and done minutes, effort, distance, reps, notes</td><td>Your training log, weekly totals</td><td>On your phone</td><td>You</td><td>Until you delete it or your account</td></tr>
+          <tr><td>Weight-room sets: exercise, sets, reps, weight</td><td>Your lifting history</td><td>On your phone</td><td>You</td><td>Until you delete it or your account</td></tr>
+          <tr><td>Race and time-trial results</td><td>Results table and personal bests</td><td>On your phone</td><td>You</td><td>Until you delete it or your account</td></tr>
+          <tr><td>Daily check-in: sleep, soreness, energy, mood, pain and where</td><td>Show how you're recovering</td><td>On your phone</td><td>You</td><td>Until you delete it or your account</td></tr>
+          <tr><td>Hydration entries</td><td>Hydration tracker</td><td>On your phone</td><td>You</td><td>Until you delete it</td></tr>
+          <tr><td>Apple Health (only metrics you switch on): runs and workouts, resting heart rate, heart rate variability, sleep, exercise minutes, steps, active calories</td><td>Show watch data next to your training</td><td>Read from Apple Health; daily summaries saved on your phone</td><td>You</td><td>Until you delete it or turn off access in the Health app</td></tr>
+          <tr><td>Events, event group, level, season goals</td><td>Sort your results, show goals</td><td>On your phone</td><td>You</td><td>Until you delete it</td></tr>
+          <tr><td>Purchases</td><td>Optional donations</td><td>Apple (we see only that a purchase happened)</td><td>Apple; RunBud sees no card details</td><td>Per Apple's policy</td></tr>
+          <tr><td>Support emails you send</td><td>Answer your questions</td><td>Email inbox</td><td>RunBud</td><td>Up to 2 years, or sooner on request</td></tr>
+          <tr><td>Location during a run (older app versions only)</td><td>GPS run tracking, which is being removed</td><td>On your phone</td><td>You</td><td>Until you delete the run</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h2 id="teams">Team features <span class="badge-soon">Coming</span></h2>
+      <p>With the spring 2027 coach pilot, some data will sync to Google Firebase so it can be shared with teams you join. Nothing below is collected yet.</p>
+      <div class="doc-wrap">
+      <table class="doc-table">
+        <thead><tr><th scope="col">Data</th><th scope="col">Why</th><th scope="col">Who can see it</th></tr></thead>
+        <tbody>
+          <tr><td>Team memberships and your role on each team</td><td>Connect you to your teams</td><td>You; that team's coaches and admins</td></tr>
+          <tr><td>Sessions, results and check-ins you choose to share</td><td>Coaches plan and follow your training</td><td>Only the staff roles you allow, per team (coach, athletic trainer, nutritionist)</td></tr>
+          <tr><td>Watch data you choose to share</td><td>Same as above</td><td>Only if you turn it on, per team</td></tr>
+          <tr><td>Workouts coaches post, with release times</td><td>Show the day's workout</td><td>Athletes on that team, from the release time</td></tr>
+          <tr><td>Team and coach messages</td><td>Team communication</td><td>Chat members; school or club admins can review all coach and athlete messages</td></tr>
+          <tr><td>Reports and blocks</td><td>Safety</td><td>School or club admins; RunBud for abuse reports</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h2 id="website">On this website</h2>
+      <ul>
+        <li><strong>No cookies, no analytics, no ad trackers.</strong> The site saves one setting in your browser (light or dark theme).</li>
+        <li><strong>Hosting:</strong> GitHub Pages serves the site. Like any web host, it receives your IP address and browser details to deliver pages.</li>
+        <li><strong>Fonts:</strong> fonts load from Google Fonts, which receives your IP address when loading them.</li>
+        <li><strong>Coach demo:</strong> everything in the demo is sample data and stays in your browser tab. Nothing you type is sent anywhere.</li>
+        <li><strong>Email:</strong> if you email us, we receive what you send.</li>
+      </ul>
+
+      <h2 id="never">What we don't do</h2>
+      <ul>
+        <li>We don't sell or rent your data.</li>
+        <li>We don't use advertising trackers or build advertising profiles.</li>
+        <li>We don't send your data to third-party AI services.</li>
+        <li>We don't read from Apple Health anything you haven't switched on, and we never write to it.</li>
+      </ul>
+
+      <h2 id="control">Your controls</h2>
+      <ul>
+        <li>Turn each Apple Health metric on or off in the app, or remove RunBud's access in the Health app.</li>
+        <li>Edit or delete any entry in your training log.</li>
+        <li><a href="delete-account.html">Delete your account and data</a>.</li>
+        <li>Ask for a copy of your data: <a href="mailto:jolumobuhelp@gmail.com?subject=Data%20request">jolumobuhelp@gmail.com</a>.</li>
+      </ul>
+    </div>
+  </main>
+  <div class="lanes" role="presentation"></div>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-cols">
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="https://apps.apple.com/us/app/runbudapp/id6748336230">RunBud for iPhone</a></li>
+            <li><a href="coach.html">Coach dashboard demo</a></li>
+            <li><a href="index.html#coming">Coming soon</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#support">Support</a></li>
+            <li><a href="mailto:jolumobuhelp@gmail.com">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy policy</a></li>
+            <li><a href="terms.html">Terms of use</a></li>
+            <li><a href="data.html">Data we collect</a></li>
+            <li><a href="community.html">Community guidelines</a></li>
+            <li><a href="delete-account.html">Delete your account</a></li>
+          </ul>
+        </div>
+        <div data-follow>
+          <h4>Follow</h4>
+          <div class="socials" data-socials></div>
+        </div>
+      </div>
+      <p>&copy; 2026 RunBud. RunBud is not a medical device and does not replace professional medical advice.</p>
+    </div>
+  </footer>
+</body>
+</html>
