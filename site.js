@@ -84,3 +84,38 @@
     document.querySelectorAll("[data-follow]").forEach(function (col) { col.hidden = true; });
   }
 })();
+
+/* Phone menu: open/close, close on link tap, Escape or tapping outside. */
+(function () {
+  var btn = document.getElementById("menu-btn");
+  var links = document.getElementById("nav-links");
+  if (!btn || !links) return;
+  function set(open) {
+    links.classList.toggle("is-open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+  btn.addEventListener("click", function () { set(btn.getAttribute("aria-expanded") !== "true"); });
+  links.addEventListener("click", function (e) { if (e.target.closest("a")) set(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") { set(false); btn.focus(); }
+  });
+  document.addEventListener("click", function (e) {
+    if (btn.getAttribute("aria-expanded") === "true" && !links.contains(e.target) && !btn.contains(e.target)) set(false);
+  });
+})();
+
+/* Sections below the fold fade in as they scroll into view. */
+(function () {
+  if (!("IntersectionObserver" in window)) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var items = document.querySelectorAll(".reveal");
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.remove("pending"); io.unobserve(e.target); }
+    });
+  }, { rootMargin: "0px 0px -8% 0px" });
+  items.forEach(function (el) {
+    if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add("pending"); io.observe(el); }
+  });
+})();

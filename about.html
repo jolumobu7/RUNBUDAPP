@@ -24,8 +24,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261119b">
-  <script src="site.js?v=20261119b" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261119d">
+  <script src="site.js?v=20261119d" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -48,13 +48,21 @@
         RunBud
       </a>
       <nav class="site-nav" aria-label="Main">
-        <a class="nav-extra" href="index.html#app">In the app</a>
-        <a class="nav-extra" href="index.html#coaches">Coaches</a>
-        <a class="nav-extra" href="about.html" aria-current="page">About</a>
+        <div class="nav-links" id="nav-links">
+          <a href="index.html#app">In the app</a>
+          <a href="index.html#coming">Coming soon</a>
+          <a href="index.html#coaches">Coaches</a>
+          <a href="about.html" aria-current="page">About</a>
+          <a href="index.html#support">Support</a>
+        </div>
         <a class="nav-demo" href="coach.html">Coach demo</a>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme">
           <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">
+          <svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
       </nav>
     </div>
@@ -90,10 +98,10 @@
     <section class="section" id="work">
       <div class="wrap">
         <div class="section-head">
-          <h2>What I've built</h2>
+          <h2>What I'm building</h2>
         </div>
         <div class="work-list">
-          <article class="work">
+          <article class="work reveal">
             <div class="work-head">
               <h3>RunBud</h3>
               <span class="work-meta">Founder · iOS app, live on the App Store</span>
@@ -109,26 +117,11 @@
             <p class="small"><a href="https://apps.apple.com/us/app/runbudapp/id6748336230">RunBud on the App Store</a> · <a href="coach.html">Coach dashboard demo</a></p>
           </article>
 
-          <article class="work">
-            <div class="work-head">
-              <h3>Handler</h3>
-              <span class="work-meta">iOS app · in development</span>
-            </div>
-            <p>An assistive app for a friend with progressive vision loss. It uses the iPhone camera to read text aloud through AirPods in real time.</p>
-          </article>
-
-          <article class="work">
-            <div class="work-head">
-              <h3>Network design for a school district</h3>
-              <span class="work-meta">Penn State course project</span>
-            </div>
-            <p>Planned a network for a K-12 school district as a course project: requirements, layout and security considerations.</p>
-          </article>
         </div>
       </div>
     </section>
 
-    <section class="section section-mist" id="skills">
+    <section class="section section-mist reveal" id="skills">
       <div class="wrap">
         <div class="section-head">
           <h2>Skills</h2>
@@ -199,7 +192,7 @@
         <div>
           <h4>Company</h4>
           <ul>
-            <li><a href="about.html">About</a></li>
+            <li><a href="about.html" aria-current="page">About</a></li>
             <li><a href="index.html#support">Support</a></li>
             <li><a href="mailto:jolumobuhelp@gmail.com">Contact</a></li>
           </ul>

@@ -891,3 +891,50 @@ details p {
 .doc-table th { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate); }
 .doc-wrap { overflow-x: auto; }
 .badge-soon { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 0.05rem 0.5rem; border-radius: 99px; background: var(--blue-tint); color: var(--blue); white-space: nowrap; }
+
+/* ---------- Navigation: full links on wide screens, menu on phones ---------- */
+.site-nav .nav-links { display: flex; align-items: center; gap: clamp(0.8rem, 2vw, 1.5rem); }
+.site-nav .nav-links a[aria-current="page"] { color: var(--blue); }
+.menu-btn {
+  display: none; place-items: center; width: 2.4rem; height: 2.4rem; padding: 0;
+  border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer;
+}
+.menu-btn svg { width: 1.15rem; height: 1.15rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.menu-btn .icon-close { display: none; }
+.menu-btn[aria-expanded="true"] .icon-menu { display: none; }
+.menu-btn[aria-expanded="true"] .icon-close { display: block; }
+@media (max-width: 56rem) {
+  .menu-btn { display: inline-grid; }
+  .site-nav .nav-links {
+    display: none; position: absolute; left: 0; right: 0; top: 100%;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: var(--paper); border-bottom: 1px solid var(--line);
+    padding: 0.5rem var(--gutter) 1rem;
+  }
+  .site-nav .nav-links.is-open { display: flex; }
+  .site-nav .nav-links a { padding: 0.85rem 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
+  .site-nav .nav-links a:last-child { border-bottom: 0; }
+  .site-header .wrap { position: relative; }
+}
+
+/* ---------- Feature cards ---------- */
+.feature-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.feature {
+  border: 1px solid var(--line); border-radius: 18px; padding: 1.3rem; background: var(--surface);
+  transition: transform .2s ease, border-color .2s ease;
+}
+.feature:hover { transform: translateY(-2px); border-color: var(--blue); }
+.feature .ico {
+  width: 2.6rem; height: 2.6rem; border-radius: 12px; display: grid; place-items: center;
+  background: var(--blue-tint); color: var(--blue); margin-bottom: 0.9rem;
+}
+.feature .ico svg { width: 1.3rem; height: 1.3rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.feature h3 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+.feature p { margin: 0; color: var(--slate); font-size: 0.95rem; }
+@media (max-width: 64rem) { .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 30rem) { .feature-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- Gentle reveal on scroll (only when JS runs; off with reduced motion) ---------- */
+.reveal.pending { opacity: 0; transform: translateY(14px); }
+.reveal { transition: opacity .5s ease, transform .5s ease; }
+@media (prefers-reduced-motion: reduce) { .reveal.pending { opacity: 1; transform: none; } .reveal { transition: none; } }
