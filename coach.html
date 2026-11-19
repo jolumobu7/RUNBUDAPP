@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("runbud-theme");
+        document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
+  <title>Coach dashboard | RunBud</title>
+  <meta name="description" content="Preview of the RunBud coach dashboard: plan vs done, team load, check-in flags and each athlete's training, by event group.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="RunBudAppLogo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="dashboard.js" defer></script>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+
+  <div class="sample-banner" role="note">
+    Preview with sample data. Coach accounts open with the spring 2027 pilot. <a href="index.html#coaches">Ask about the pilot</a>
+  </div>
+
+  <header class="topbar">
+    <a class="logo" href="index.html" aria-label="RunBud home">
+      <img src="RunBudAppLogo.png" alt="" width="34" height="34">
+    </a>
+    <span class="pill" id="today-pill">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      <span id="today-text">Today</span>
+    </span>
+    <label class="pill team-select">
+      <span class="sr-only">Team</span>
+      <select id="team">
+        <option>Sprints group</option>
+        <option>Boys track</option>
+        <option>Girls track</option>
+      </select>
+    </label>
+    <span class="pill pill-stat">Completion <b>83%</b></span>
+
+    <nav class="tabs" aria-label="Dashboard sections">
+      <a class="tab is-active" href="#" aria-current="page">Dashboard</a>
+      <a class="tab" href="#plan">Plan</a>
+      <a class="tab" href="#athletes">Athletes</a>
+      <a class="tab" href="#messages">Messages</a>
+    </nav>
+
+    <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <span class="avatar" aria-label="Signed in as Coach">C</span>
+  </header>
+
+  <main class="dash">
+    <section class="hello">
+      <h1>Welcome back, Coach</h1>
+      <p>Here's how your team's week is going.</p>
+    </section>
+
+    <!-- Row 1: stat tiles + load chart -->
+    <section class="grid grid-top">
+      <div class="tiles">
+        <article class="card tile">
+          <div class="tile-head"><span>Athletes</span><span class="chip-badge good">+2</span></div>
+          <div class="tile-foot">
+            <span class="tile-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.3A5 5 0 0 1 21 19"/></svg></span>
+            <span class="big">24</span>
+          </div>
+        </article>
+        <article class="card tile">
+          <div class="tile-head"><span>Sessions done</span></div>
+          <div class="tile-foot">
+            <span class="tile-icon"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span>
+            <span class="big">86<small>/104</small></span>
+          </div>
+        </article>
+        <article class="card tile">
+          <div class="tile-head"><span>Team minutes</span></div>
+          <div class="tile-foot">
+            <span class="tile-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+            <span class="big">5,640</span>
+          </div>
+        </article>
+        <article class="card tile">
+          <div class="tile-head"><span>Check-in flags</span><span class="chip-badge warn">3 new</span></div>
+          <div class="tile-foot">
+            <span class="tile-icon"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
+            <span class="big">3</span>
+          </div>
+        </article>
+      </div>
+
+      <article class="card load">
+        <div class="card-head">
+          <h2>Team load</h2>
+          <span class="pill small">7 days</span>
+        </div>
+        <p class="load-number">+12% <span>vs last week</span></p>
+        <div class="bars" id="load-bars" role="img" aria-label="Team training load by day this week"></div>
+        <div class="bar-labels" id="load-labels" aria-hidden="true"></div>
+        <p class="hint">Load = minutes done × effort (1–10), averaged across athletes.</p>
+      </article>
+    </section>
+
+    <!-- Row 2: filters -->
+    <section class="filters" aria-label="Filter by event group">
+      <div class="chips" id="group-chips" role="group">
+        <button class="chip is-on" data-group="All">All</button>
+        <button class="chip" data-group="Sprints">Sprints</button>
+        <button class="chip" data-group="Hurdles">Hurdles</button>
+        <button class="chip" data-group="Mid-distance">Mid-distance</button>
+        <button class="chip" data-group="Distance">Distance</button>
+        <button class="chip" data-group="Jumps">Jumps</button>
+        <button class="chip" data-group="Throws">Throws</button>
+      </div>
+    </section>
+
+    <!-- Row 3: plan vs done, today's workout, needs attention -->
+    <section class="grid grid-mid">
+      <div class="stack">
+        <article class="card">
+          <div class="card-head"><h2>Plan vs done</h2><span class="pill small">This week</span></div>
+          <div class="split-bar" role="img" aria-label="64 percent done as planned, 19 percent partly done, 17 percent skipped">
+            <span class="seg done" style="flex:64"><b>64%</b></span>
+            <span class="seg part" style="flex:19"><b>19%</b></span>
+            <span class="seg skip" style="flex:17"><b>17%</b></span>
+          </div>
+          <ul class="legend">
+            <li><i class="dot done"></i>Done as planned</li>
+            <li><i class="dot part"></i>Partly done</li>
+            <li><i class="dot skip"></i>Skipped</li>
+          </ul>
+        </article>
+
+        <article class="card mini-stats">
+          <div><span>Avg sleep</span><b>7.2<small>h</small></b></div>
+          <div><span>Avg soreness</span><b>2.6<small>/5</small></b></div>
+          <div><span>Checked in today</span><b>88<small>%</small></b></div>
+        </article>
+      </div>
+
+      <article class="card workout" id="plan">
+        <div class="card-head">
+          <div>
+            <span class="tag tag-sprints">Sprints</span>
+            <h2 class="workout-title">Speed endurance</h2>
+            <p class="muted">Thursday · about 75 min</p>
+          </div>
+          <span class="pill small visible-pill" title="Athletes see this day from this time">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            Visible tonight 8:00 PM
+          </span>
+        </div>
+        <ol class="parts">
+          <li><span>Warm-up</span>800m jog, A-skips, B-skips, 3 × 30m build-ups</li>
+          <li><span>Main set</span>3 × 300m @ 42–44, 8 min rest</li>
+          <li><span>Then</span>2 × 150m @ 18–19, walk back</li>
+          <li><span>Weight room</span>Power clean 4 × 3, RDL 3 × 6, core circuit</li>
+          <li><span>Cool-down</span>800m jog, static stretch</li>
+        </ol>
+        <div class="workout-actions">
+          <button class="btn">Edit day</button>
+          <button class="btn btn-quiet">Copy to next week</button>
+        </div>
+      </article>
+
+      <article class="card attention">
+        <div class="card-head"><h2>Needs attention</h2><a class="see-all" href="#athletes">See all</a></div>
+        <ul class="people">
+          <li>
+            <span class="person-avatar" style="--hue:200">ML</span>
+            <div><b>Marcus L.</b><span>Pain: left hamstring · 2 days</span></div>
+            <span class="flag flag-red">Pain</span>
+          </li>
+          <li>
+            <span class="person-avatar" style="--hue:330">AB</span>
+            <div><b>Ava B.</b><span>Slept under 6 h three nights</span></div>
+            <span class="flag flag-amber">Sleep</span>
+          </li>
+          <li>
+            <span class="person-avatar" style="--hue:30">JT</span>
+            <div><b>Jordan T.</b><span>Easy days rated 8/10 effort</span></div>
+            <span class="flag flag-amber">Effort</span>
+          </li>
+        </ul>
+        <p class="hint">Flags come from athletes' daily check-ins. Athletes choose what they share.</p>
+      </article>
+    </section>
+
+    <!-- Row 4: athletes table + schedule -->
+    <section class="grid grid-bottom">
+      <article class="card table-card" id="athletes">
+        <div class="card-head"><h2>Athletes</h2><span class="muted" id="athlete-count"></span></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Athlete</th>
+                <th scope="col">Group</th>
+                <th scope="col">Done</th>
+                <th scope="col">Load</th>
+                <th scope="col">Sleep</th>
+                <th scope="col">Sore</th>
+                <th scope="col">Best mark</th>
+              </tr>
+            </thead>
+            <tbody id="athlete-rows"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card schedule">
+        <div class="card-head">
+          <h2>Schedule</h2>
+          <span class="pill small" id="month-label">Month</span>
+        </div>
+        <div class="cal-head" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+        <div class="cal" id="cal"></div>
+        <ul class="legend">
+          <li><i class="dot posted"></i>Posted</li>
+          <li><i class="dot hidden-day"></i>Scheduled, hidden</li>
+          <li><i class="dot meet"></i>Meet</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card messages" id="messages">
+      <div class="card-head"><h2>Messages</h2><span class="pill small">School can review</span></div>
+      <p class="muted">Team and event-group chats. Every coach–athlete conversation is visible to your school's admins. Coming with the pilot.</p>
+    </section>
+
+    <footer class="dash-foot">
+      <a href="index.html">RunBud home</a>
+      <a href="privacy.html">Privacy policy</a>
+      <span>RunBud shares training information, not medical advice.</span>
+    </footer>
+  </main>
+</body>
+</html>
