@@ -391,3 +391,11 @@ tbody tr:hover td { background: var(--fill); }
   .part-row input:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
 }
 .day .tag { align-self: flex-start; margin-bottom: 0; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 8px;
+  border-radius: 999px; background: var(--card); border: 1px solid var(--stroke);
+  text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap;
+}
+.back-link img { border-radius: 7px; }
+.back-link:hover { border-color: var(--brand); }
+@media (max-width: 760px) { .back-link span { display: none; } }
