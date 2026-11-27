@@ -1,0 +1,39 @@
+<script>
+(function () {
+  var EV = {
+    sprints: ["Max velocity: 4 × 30 m flying, full recovery", "Top speed is trained fresh, early in the week, with full rest so every rep is fast."],
+    hurdles: ["Rhythm: 5 × 5 hurdles at race spacing", "Three-step rhythm at race spacing, then the same set with hurdles moved in for speed."],
+    "400": ["Speed endurance: 3 × 300 m at goal pace", "Paces come from your 200 and 400 marks, with long rests so the pace holds."],
+    distance: ["Threshold: 4 × 1 mile at 10K effort", "Comfortably hard reps that build aerobic power without a race-day effort."],
+    jumps: ["Short approach: 8 jumps from 6 steps", "Takeoff practice at controlled speed, then sprint work on the same day."],
+    throws: ["Power: 6 standing throws and med ball", "Explosive throws first while fresh, then a heavy lift with fewer reps."],
+    multi: ["Two-event day: hurdles, then high jump", "Pairs a running and a technical event the way meets schedule them."]
+  };
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.ev-tabs [role="tab"]'));
+  var panel = document.getElementById("ev-panel");
+  if (!tabs.length || !panel) return;
+  function pick(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+    });
+    var d = EV[tab.getAttribute("data-ev")];
+    document.getElementById("ev-session").textContent = d[0];
+    document.getElementById("ev-why").textContent = d[1];
+    panel.setAttribute("aria-labelledby", tab.id);
+    if (focus) tab.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { pick(t); });
+    t.addEventListener("keydown", function (e) {
+      var n = null;
+      if (e.key === "ArrowRight") n = tabs[(i + 1) % tabs.length];
+      if (e.key === "ArrowLeft") n = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (e.key === "Home") n = tabs[0];
+      if (e.key === "End") n = tabs[tabs.length - 1];
+      if (n) { e.preventDefault(); pick(n, true); }
+    });
+  });
+})();
+</script>

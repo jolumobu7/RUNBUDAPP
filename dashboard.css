@@ -1,7 +1,5 @@
-@font-face { font-family: "Archivo"; src: url("fonts/archivo-wdth.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
-@font-face { font-family: "IBM Plex Sans"; src: url("fonts/plex-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "IBM Plex Sans"; src: url("fonts/plex-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "IBM Plex Sans"; src: url("fonts/plex-600-normal.woff2") format("woff2"); font-weight: 600 700; font-display: swap; }
+@font-face { font-family: "Big Shoulders"; src: url("fonts/bigshoulders.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Instrument Sans"; src: url("fonts/instrument.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
 /* RunBud coach dashboard. Dark by default, light with the switch. */
 
 :root {
@@ -26,8 +24,8 @@
   --glow-b: rgba(94, 92, 230, 0.18);
   --radius: 22px;
   --radius-sm: 14px;
-  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Big Shoulders", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Instrument Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 :root[data-theme="light"] {

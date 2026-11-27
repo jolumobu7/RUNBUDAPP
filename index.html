@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f4f7fc">
+  <meta name="theme-color" content="#f2f2f7">
   <script>
     (function () {
       var t = null;
@@ -20,9 +20,10 @@
   <meta property="og:image" content="https://www.myrunbud.com/RunBudAppLogo.png">
   <link rel="icon" href="RunBudAppLogo.png">
   <link rel="apple-touch-icon" href="RunBudAppLogo.png">
-  <link rel="preload" href="fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=20261127a">
-  <script src="site.js?v=20261127a" defer></script>
+  <link rel="preload" href="fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=20261127b">
+  <script src="site.js?v=20261127b" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -54,86 +55,149 @@
     </div>
   </header>
   <main id="main">
-    <section class="track hero-track hero" aria-labelledby="hero-title">
-      <div class="wrap hero-grid">
+    <section class="intro" aria-labelledby="hero-title">
+      <div class="wrap intro-row">
         <div>
           <p class="beta">RunBud 2.0 is in beta testing</p>
-          <h1 id="hero-title">A training plan built around your real week.</h1>
-          <p class="lede">RunBud Coach plans sprint, distance, hurdle, jump and throw training from your PRs, your training history and how you feel each morning. Then it adjusts when practice, class or a bad night's sleep gets in the way.</p>
-          <div class="btn-row">
-            <a class="btn btn-lane" href="account.html?new=1">Create a free account</a>
-            <a class="btn btn-ghost-lane" href="https://apps.apple.com/us/app/runbudapp/id6748336230">Get the app on iPhone</a>
-          </div>
-          <p class="small">Free. Use the same account in the app and on this site. Android is in testing.</p>
+          <h1 id="hero-title">Every event. One training app.</h1>
         </div>
-        <div class="phone">
-          <img src="img/app-today.webp" width="590" height="1278" alt="RunBud's Today screen: an extensive tempo workout with warm-up, main set of 10 by 100 meters at 15.1 seconds, and extras, plus shortcuts to Coach, Log, Check-in and Water.">
+        <div class="intro-side">
+          <p class="lede">RunBud plans, logs and adjusts training for sprints, hurdles, distance, jumps and throws. It's free, and it was built by an athlete who has raced most of them.</p>
+          <div class="btn-row">
+            <a class="btn btn-orange" href="account.html?new=1">Create a free account</a>
+            <a class="btn btn-quiet" href="https://apps.apple.com/us/app/runbudapp/id6748336230">Get the app on iPhone</a>
+          </div>
         </div>
       </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="profile-name">
+      <div class="dash-card">
+        <div class="dash-main">
+          <div class="dash-athlete">
+            <img src="img/jes-cutout.webp" width="880" height="1100" alt="Jesufifunmi Olugbenga, smiling, in a navy track jacket.">
+          </div>
+
+          <div class="dash-radar">
+            <span class="dash-ghost" aria-hidden="true">47.92</span>
+            <svg class="radar" viewBox="-95 -40 610 510" role="img" aria-labelledby="radar-t radar-d">
+              <title id="radar-t">Jesufifunmi's marks across seven events</title>
+              <desc id="radar-d">100 m 11.00, 200 m 21.9, 400 m 47.92, 800 m relay split 1:52, 5K cross country 16:26, high jump 6 feet 4, long jump 23 feet 6 and a half.</desc>
+              <g class="r-grid"><circle cx="210" cy="210" r="38"/><circle cx="210" cy="210" r="75"/><circle cx="210" cy="210" r="112"/><circle cx="210" cy="210" r="150"/><line x1="210" y1="210" x2="210.0" y2="60.0"/><line x1="210" y1="210" x2="327.3" y2="116.5"/><line x1="210" y1="210" x2="356.2" y2="243.4"/><line x1="210" y1="210" x2="275.1" y2="345.1"/><line x1="210" y1="210" x2="144.9" y2="345.1"/><line x1="210" y1="210" x2="63.8" y2="243.4"/><line x1="210" y1="210" x2="92.7" y2="116.5"/></g>
+              <polygon class="r-shape" points="210.0,90.0 310.9,129.6 348.9,241.7 267.3,328.9 169.6,293.8 93.0,236.7 110.3,130.5"/>
+              <circle cx="210.0" cy="90.0" r="5" class="r-dot"/><circle cx="310.9" cy="129.6" r="5" class="r-dot"/><circle cx="348.9" cy="241.7" r="5" class="r-dot"/><circle cx="267.3" cy="328.9" r="5" class="r-dot"/><circle cx="169.6" cy="293.8" r="5" class="r-dot"/><circle cx="93.0" cy="236.7" r="5" class="r-dot"/><circle cx="110.3" cy="130.5" r="5" class="r-dot"/>
+              <text x="210" y="-2" text-anchor="middle" class="r-ev">100m</text><text x="210" y="30" text-anchor="middle" class="r-mk">11.00</text><text x="351" y="88" text-anchor="start" class="r-ev">200m</text><text x="351" y="120" text-anchor="start" class="r-mk">21.9</text><text x="385" y="240" text-anchor="start" class="r-ev">400m</text><text x="385" y="272" text-anchor="start" class="r-mk">47.92</text><text x="288" y="362" text-anchor="start" class="r-ev">800m</text><text x="288" y="394" text-anchor="start" class="r-mk">1:52</text><text x="132" y="362" text-anchor="end" class="r-ev">5K</text><text x="132" y="394" text-anchor="end" class="r-mk">16:26</text><text x="35" y="240" text-anchor="end" class="r-ev">High jump</text><text x="35" y="272" text-anchor="end" class="r-mk">6′4″</text><text x="69" y="88" text-anchor="end" class="r-ev">Long jump</text><text x="69" y="120" text-anchor="end" class="r-mk">23′6½″</text>
+            </svg>
+          </div>
+
+          <div class="dash-side">
+            <p class="dash-kicker">Founder of RunBud</p>
+            <h2 id="profile-name" class="dash-name">Jesufifunmi Olugbenga</h2>
+            <p class="dash-sub">Sprints, jumps, middle distance and cross country</p>
+            <dl class="tiles">
+              <div class="tile-stat t-orange"><dt>400 m</dt><dd>47.92</dd><dd class="t-note">1st, Widener Final Qualifier, 2025</dd></div>
+              <div class="tile-stat t-glass"><dt>4&times;400 split</dt><dd>46.7</dd><dd class="t-note">Anchor leg</dd></div>
+              <div class="tile-stat t-white"><dt>Long jump</dt><dd>23&prime;6&frac12;&Prime;</dd><dd class="t-note">7.17 m</dd></div>
+              <div class="tile-stat t-glass sm"><dt>100 m</dt><dd>11.00</dd></div>
+              <div class="tile-stat t-glass sm"><dt>200 m</dt><dd>21.9</dd></div>
+              <div class="tile-stat t-glass sm"><dt>High jump</dt><dd>6&prime;4&Prime;</dd></div>
+              <div class="tile-stat t-glass sm"><dt>5K XC</dt><dd>16:26</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="dash-bottom">
+          <div class="dash-week">
+            <div class="dash-head">
+              <h3>His week in RunBud Coach</h3>
+              <span class="pill">400 m focus</span>
+            </div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="This week's sessions">
+              <table class="wk">
+                <thead><tr><th scope="col">Day</th><th scope="col">Session</th><th scope="col">Target</th><th scope="col">Effort</th><th scope="col">Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Mon</td><td>Tempo and lift</td><td>6 &times; 200 m at 28.2</td><td>6</td><td><span class="st st-done">Done</span></td></tr>
+                  <tr><td>Tue</td><td>Speed and long jump</td><td>4 &times; 30 m fly, 6 jumps</td><td>8</td><td><span class="st st-done">Done</span></td></tr>
+                  <tr class="now"><td>Wed</td><td>Recovery</td><td>30 min easy, mobility</td><td>&ndash;</td><td><span class="st st-today">Today</span></td></tr>
+                  <tr><td>Thu</td><td>Speed endurance</td><td>3 &times; 300 m at 36.5</td><td>&ndash;</td><td><span class="st">Planned</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="dash-goals">
+            <div class="dash-head"><h3>2026&ndash;27 goals</h3></div>
+            <ul class="goals">
+              <li><span class="g-ev">400 m</span><span class="g-bar" style="--p:72%"><i></i></span><span class="g-nums">47.92 <b>46.9</b></span></li>
+              <li><span class="g-ev">200 m</span><span class="g-bar" style="--p:64%"><i></i></span><span class="g-nums">21.9 <b>21.5</b></span></li>
+              <li><span class="g-ev">Long jump</span><span class="g-bar" style="--p:80%"><i></i></span><span class="g-nums">23&prime;6&frac12;&Prime; <b>24&prime;0&Prime;</b></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="dash-note small">Marks from World Athletics, Penn State results and his own training log. Relay legs are splits, not open races. RunBud is independent and isn't affiliated with Penn State University.</p>
     </section>
 
     <section class="section" id="coach" aria-labelledby="coach-title">
       <div class="wrap">
-        <div class="section-head">
-          <h2 id="coach-title">How RunBud Coach builds your plan</h2>
-          <p>It isn't a chatbot guessing. It's a set of rules coaches use, applied to your numbers, and it shows its work.</p>
-        </div>
-        <div class="split">
-          <ul class="inputs" aria-label="What RunBud Coach reads">
-            <li><b>Your PRs</b><span>Your best marks in any event, converted so a 200 m time can set your 400 m paces. Old marks count for a little less.</span></li>
-            <li><b>Your history</b><span>Every logged session. If you keep fading on the last reps or missing a day, the next weeks change.</span></li>
-            <li><b>How you feel</b><span>A ten-second morning check-in. Sick, sore or short on sleep turns a hard day into an easier one.</span></li>
-            <li><b>Your week</b><span>Mark days as team practice, open, or off, with the minutes you have. Hard days never land back to back.</span></li>
-          </ul>
-          <div class="phone" style="max-width:300px">
-            <img src="img/app-coach.webp" width="590" height="1278" loading="lazy" alt="The RunBud Coach screen for a 400 meter athlete: goal 46.90, fitness now from a 48.20 400 meter, a realistic range of 46.70 to 47.62 by February, a season bar by phase, and current paces for tempo and speed endurance work.">
+        <div class="panel-dark">
+          <div class="split">
+            <div>
+              <h2 id="coach-title">RunBud Coach builds the plan. You run it.</h2>
+              <p class="lede" style="margin-top:1rem">It isn't a chatbot guessing. It's the rules coaches use, applied to your numbers, and it shows its work.</p>
+              <ul class="inputs" aria-label="What RunBud Coach reads">
+                <li><b>Your PRs</b><span>Best marks in any event, converted so a 200 sets your 400 paces.</span></li>
+                <li><b>Your history</b><span>Fade on the last reps or miss a day, and the next weeks change.</span></li>
+                <li><b>How you feel</b><span>A ten-second check-in. Sick, sore or short on sleep makes a hard day easier.</span></li>
+                <li><b>Your week</b><span>Practice, class, work, other sports. Hard days never land back to back.</span></li>
+              </ul>
+            </div>
+            <div class="phones-pair">
+              <div class="phone p-back"><img src="img/app-coach.webp" width="590" height="1278" alt="The RunBud Coach screen: goal 46.90 in the 400 meters, fitness now from a 48.20, a realistic range, season phases and current paces."></div>
+              <div class="phone p-front"><img src="img/app-today.webp" width="590" height="1278" alt="The Today screen showing an extensive tempo workout with its warm-up, main set and extras."></div>
+            </div>
           </div>
-        </div>
-
-        <h3 id="week-title" style="margin-top:clamp(2.5rem,6vw,4rem)">An example week</h3>
-        <p class="small" style="margin:0.4rem 0 1rem">A 400 m runner with team practice Monday, basketball Saturday and Sunday off.</p>
-        <div class="table-scroll" role="region" aria-labelledby="week-title" tabindex="0">
-          <table class="heat" aria-labelledby="week-title">
-            <thead><tr><th scope="col">Day</th><th scope="col">Your setup</th><th scope="col">What RunBud Coach plans</th></tr></thead>
-            <tbody>
-              <tr><td class="day">Mon</td><td><span class="tag tag-booked">Team practice</span></td><td>Your coach's tempo counts as the week's tempo day.<span class="why">Booked days fill a slot instead of adding to it.</span></td></tr>
-              <tr><td class="day">Tue</td><td><span class="tag">Open, 60 min</span></td><td>Acceleration and max speed, then lower-body lift.</td></tr>
-              <tr><td class="day">Wed</td><td><span class="tag">Open, 45 min</span></td><td>Recovery run and mobility.<span class="why">Keeps the two hard days apart.</span></td></tr>
-              <tr><td class="day">Thu</td><td><span class="tag">Open, 75 min</span></td><td>Speed endurance: 3 &times; 150 m at your paces.</td></tr>
-              <tr><td class="day">Fri</td><td><span class="tag">Open, 30 min</span></td><td>Easy strides and core.</td></tr>
-              <tr><td class="day">Sat</td><td><span class="tag tag-booked">Basketball</span></td><td>Counts as a medium day. No lifting.</td></tr>
-              <tr><td class="day">Sun</td><td><span class="tag tag-off">Off</span></td><td>Rest.</td></tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </section>
 
-    <section class="band section" id="app" aria-labelledby="app-title">
+    <section class="section" id="events" aria-labelledby="events-title">
+      <div class="wrap">
+        <div class="panel-orange">
+          <img class="runner" src="img/runner-cutout.webp" width="895" height="1000" alt="">
+          <div class="events-copy">
+            <h2 id="events-title">Built for every event group</h2>
+            <p>Pick your events and RunBud Coach plans the sessions that event needs.</p>
+            <div class="ev-tabs" role="tablist" aria-label="Event groups">
+              <button role="tab" aria-selected="true" aria-controls="ev-panel" id="ev-sprints" data-ev="sprints">Sprints</button>
+              <button role="tab" aria-selected="false" aria-controls="ev-panel" id="ev-hurdles" data-ev="hurdles" tabindex="-1">Hurdles</button>
+              <button role="tab" aria-selected="false" aria-controls="ev-panel" id="ev-400" data-ev="400" tabindex="-1">400 and 800</button>
+              <button role="tab" aria-selected="false" aria-controls="ev-panel" id="ev-distance" data-ev="distance" tabindex="-1">Distance</button>
+              <button role="tab" aria-selected="false" aria-controls="ev-panel" id="ev-jumps" data-ev="jumps" tabindex="-1">Jumps</button>
+              <button role="tab" aria-selected="false" aria-controls="ev-panel" id="ev-throws" data-ev="throws" tabindex="-1">Throws</button>
+              <button role="tab" aria-selected="false" aria-controls="ev-panel" id="ev-multi" data-ev="multi" tabindex="-1">Multis</button>
+            </div>
+            <div class="ev-panel" id="ev-panel" role="tabpanel" aria-labelledby="ev-sprints" aria-live="polite">
+              <p class="ev-label">A key session this week</p>
+              <p class="ev-session" id="ev-session">Max velocity: 4 &times; 30 m flying, full recovery</p>
+              <p class="ev-why" id="ev-why">Top speed is trained fresh, early in the week, with full rest so every rep is fast.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="app" aria-labelledby="app-title">
       <div class="wrap">
         <div class="section-head">
           <h2 id="app-title">Everything else is two taps away</h2>
-          <p>Log, check in, drink water, learn. Every screen below is from RunBud 2.0.</p>
+          <p>Every screen below is from RunBud 2.0.</p>
         </div>
         <ul class="screens" tabindex="0" aria-label="RunBud 2.0 screens, scroll sideways for more">
-          <li><figure>
-            <div class="phone"><img src="img/app-log.webp" width="590" height="1278" alt="The Log screen's weekly plan, with tempo, run, easy run and squats and jumps marked done."></div>
-            <figcaption><b>Log</b><span>Plan versus done, with your watch runs filled in.</span></figcaption>
-          </figure></li>
-          <li><figure>
-            <div class="phone"><img src="img/app-insights.webp" width="590" height="1278" alt="The Insights screen showing Ready to train, a readiness score of 75 out of 100 based on sleep, heart rate variability, resting heart rate and training load."></div>
-            <figcaption><b>Insights</b><span>Readiness from sleep, HRV and training load.</span></figcaption>
-          </figure></li>
-          <li><figure>
-            <div class="phone"><img src="img/app-hydration.webp" width="590" height="1278" alt="The Hydration screen: 48 of 163 ounces today, buttons to add 8 ounces, a bottle or 24 ounces, and electrolyte choices."></div>
-            <figcaption><b>Hydration</b><span>A daily target, plus home screen widgets.</span></figcaption>
-          </figure></li>
-          <li><figure>
-            <div class="phone"><img src="img/app-learn.webp" width="590" height="1278" alt="The Learn screen with guides for strength by event, stretching, injuries and recovery, sleep, fuel, hydration and mental training."></div>
-            <figcaption><b>Learn</b><span>Strength, recovery, fuel and sleep, with sources.</span></figcaption>
-          </figure></li>
+          <li><figure><div class="phone"><img src="img/app-log.webp" width="590" height="1278" alt="The Log screen's weekly plan, with tempo, run, easy run and squats and jumps marked done."></div><figcaption><b>Log</b><span>Plan versus done, with your watch runs filled in.</span></figcaption></figure></li>
+          <li><figure><div class="phone"><img src="img/app-insights.webp" width="590" height="1278" alt="The Insights screen showing Ready to train, a readiness score of 75 out of 100 based on sleep, heart rate variability, resting heart rate and training load."></div><figcaption><b>Insights</b><span>Readiness from sleep, HRV and training load.</span></figcaption></figure></li>
+          <li><figure><div class="phone"><img src="img/app-hydration.webp" width="590" height="1278" alt="The Hydration screen: 48 of 163 ounces today, buttons to add 8 ounces, a bottle or 24 ounces, and electrolyte choices."></div><figcaption><b>Hydration</b><span>A daily target, plus home screen widgets.</span></figcaption></figure></li>
+          <li><figure><div class="phone"><img src="img/app-learn.webp" width="590" height="1278" alt="The Learn screen with guides for strength by event, stretching, injuries and recovery, sleep, fuel, hydration and mental training."></div><figcaption><b>Learn</b><span>Strength, recovery, fuel and sleep, with sources.</span></figcaption></figure></li>
         </ul>
-
         <div class="board" style="margin-top:2.5rem">
           <article class="tile w3 on-track">
             <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M10 7h4M12 11v5"/></svg></span>
@@ -174,28 +238,27 @@
             <a class="btn" href="hub.html">Sign in to the coach hub</a>
             <a class="btn btn-quiet" href="coach.html">Try the demo</a>
           </div>
-          <p class="small">Create your team in the app, then sign in here with the same account.</p>
+          <ul class="ticks" style="margin-top:1.5rem">
+            <li>Athletes choose exactly what each team can see</li>
+            <li>Any chat with a coach in it is visible to every coach on the team</li>
+            <li>School administrators can review every team message</li>
+            <li>Messages can't be edited or deleted, and anyone can report one</li>
+          </ul>
         </div>
-        <ul class="ticks">
-          <li>See who trained, who skipped and who flagged pain or poor sleep</li>
-          <li>Athletes choose exactly what each team can see</li>
-          <li>Any chat with a coach in it is visible to every coach on the team</li>
-          <li>School administrators can review every team message</li>
-          <li>Messages can't be edited or deleted, and anyone can report one</li>
-          <li>Reports are reviewed by the RunBud team within 24 hours</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="band section" id="about" aria-labelledby="about-title">
-      <div class="wrap split">
-        <div>
-          <h2 id="about-title">Built by a sprinter</h2>
-        </div>
-        <div>
-          <p>RunBud is built by Jesufifunmi Olugbenga, a Penn State cybersecurity student who ran the 100, 200 and 400 at Penn State. He built the training plan he couldn't find as an athlete, then made it work for every event group.</p>
-          <p><a href="about.html">More about the founder</a></p>
-          <p class="small">RunBud is independent and isn't affiliated with or endorsed by Penn State University.</p>
+        <div class="roster-card">
+          <div class="dash-head"><h3>Sprints group, today</h3><span class="pill pill-dark">Sample team</span></div>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Sample roster">
+            <table class="wk roster">
+              <thead><tr><th scope="col">Athlete</th><th scope="col">Event</th><th scope="col">Readiness</th><th scope="col">Week</th></tr></thead>
+              <tbody>
+                <tr><td>Maya R.</td><td>100 / 200</td><td><span class="rd rd-g">82</span></td><td>3 of 4</td></tr>
+                <tr><td>Chris O.</td><td>400</td><td><span class="rd rd-y">61</span></td><td>2 of 4</td></tr>
+                <tr><td>Dani K.</td><td>Long jump</td><td><span class="rd rd-r">44</span> <span class="flag">Shin pain</span></td><td>1 of 4</td></tr>
+                <tr><td>Ty B.</td><td>110 H</td><td><span class="rd rd-g">77</span></td><td>4 of 4</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="small" style="margin:1rem 0 0">Red means the athlete flagged pain or poor sleep. Coaches see it before practice.</p>
         </div>
       </div>
     </section>
@@ -217,13 +280,13 @@
       </div>
     </section>
 
-    <section class="track finish" aria-labelledby="finish-title">
-      <div class="wrap">
+    <section class="wrap finish-wrap" aria-labelledby="finish-title">
+      <div class="finish-card">
         <div>
           <h2 id="finish-title">Your plan is one account away.</h2>
           <p>Make it here. Sign in on your phone. Your first week is ready when you are.</p>
         </div>
-        <a class="btn btn-lane" href="account.html?new=1">Create a free account</a>
+        <a class="btn btn-orange" href="account.html?new=1">Create a free account</a>
       </div>
     </section>
   </main>
@@ -271,5 +334,44 @@
       <p>&copy; 2026 RunBud. RunBud gives general training information. It isn't a medical device and doesn't replace advice from a doctor or athletic trainer.</p>
     </div>
   </footer>
+<script>
+(function () {
+  var EV = {
+    sprints: ["Max velocity: 4 × 30 m flying, full recovery", "Top speed is trained fresh, early in the week, with full rest so every rep is fast."],
+    hurdles: ["Rhythm: 5 × 5 hurdles at race spacing", "Three-step rhythm at race spacing, then the same set with hurdles moved in for speed."],
+    "400": ["Speed endurance: 3 × 300 m at goal pace", "Paces come from your 200 and 400 marks, with long rests so the pace holds."],
+    distance: ["Threshold: 4 × 1 mile at 10K effort", "Comfortably hard reps that build aerobic power without a race-day effort."],
+    jumps: ["Short approach: 8 jumps from 6 steps", "Takeoff practice at controlled speed, then sprint work on the same day."],
+    throws: ["Power: 6 standing throws and med ball", "Explosive throws first while fresh, then a heavy lift with fewer reps."],
+    multi: ["Two-event day: hurdles, then high jump", "Pairs a running and a technical event the way meets schedule them."]
+  };
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.ev-tabs [role="tab"]'));
+  var panel = document.getElementById("ev-panel");
+  if (!tabs.length || !panel) return;
+  function pick(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+    });
+    var d = EV[tab.getAttribute("data-ev")];
+    document.getElementById("ev-session").textContent = d[0];
+    document.getElementById("ev-why").textContent = d[1];
+    panel.setAttribute("aria-labelledby", tab.id);
+    if (focus) tab.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { pick(t); });
+    t.addEventListener("keydown", function (e) {
+      var n = null;
+      if (e.key === "ArrowRight") n = tabs[(i + 1) % tabs.length];
+      if (e.key === "ArrowLeft") n = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (e.key === "Home") n = tabs[0];
+      if (e.key === "End") n = tabs[tabs.length - 1];
+      if (n) { e.preventDefault(); pick(n, true); }
+    });
+  });
+})();
+</script>
 </body>
 </html>

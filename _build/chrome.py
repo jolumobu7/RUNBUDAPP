@@ -1,6 +1,6 @@
 """Shared head, header and footer for every page of myrunbud.com."""
 
-V = "20261127a"
+V = "20261127b"
 APP_STORE = "https://apps.apple.com/us/app/runbudapp/id6748336230"
 
 HEAD = """<!doctype html>
@@ -9,7 +9,7 @@ HEAD = """<!doctype html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f4f7fc">
+  <meta name="theme-color" content="#f2f2f7">
   <script>
     (function () {{
       var t = null;
@@ -25,7 +25,8 @@ HEAD = """<!doctype html>
   <meta property="og:image" content="https://www.myrunbud.com/RunBudAppLogo.png">
   <link rel="icon" href="RunBudAppLogo.png">
   <link rel="apple-touch-icon" href="RunBudAppLogo.png">
-  <link rel="preload" href="fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css?v={v}">
   <script src="site.js?v={v}" defer></script>{extra}
 </head>
