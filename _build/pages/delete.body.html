@@ -1,0 +1,55 @@
+  <main id="main" class="policy">
+    <div class="wrap">
+      <h1>Delete your account</h1>
+      <p class="meta">You can delete your RunBud account at any time, in the app or right here. You don't need to reinstall the app.</p>
+
+      <h2>In the app</h2>
+      <ol>
+        <li>Open RunBud and go to <strong>Profile</strong> (in older versions, <strong>Settings</strong>).</li>
+        <li>Tap <strong>Delete account</strong> and confirm.</li>
+      </ol>
+      <p>If the app asks you to sign in again first, that's a security check. Sign out, sign back in, and try again.</p>
+
+      <h2>On this page</h2>
+      <div class="form-card" id="signin">
+        <form id="signin-form" novalidate>
+          <h3 style="margin-bottom:1rem">Sign in to delete</h3>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+          <p id="err" class="form-error" role="alert"></p>
+          <button class="btn" id="go" type="submit">Sign in</button>
+        </form>
+      </div>
+      <div class="form-card" id="confirm" hidden>
+        <form id="confirm-form" novalidate>
+          <p>Signed in as <strong id="who"></strong>.</p>
+          <div class="field"><label for="typed">Type DELETE to confirm</label><input id="typed" type="text" autocomplete="off" autocapitalize="characters"></div>
+          <button class="btn" style="background:var(--danger)" id="del" type="submit">Delete my account and data</button>
+          <p id="status" role="status" aria-live="polite" style="margin-top:1rem"></p>
+        </form>
+      </div>
+      <p style="margin-top:1rem">If you signed up with Apple or Google instead of a password, delete your account in the app or by email.</p>
+
+      <h2>By email</h2>
+      <p>If you can't get into the app, email <a href="mailto:support@myrunbud.com?subject=Delete%20my%20RunBud%20account">support@myrunbud.com</a> from the email address on your account with the subject "Delete my RunBud account." We'll confirm within 48 hours and delete it within 30 days.</p>
+
+      <h2>What gets deleted</h2>
+      <ul>
+        <li>Your sign-in account (email, password, phone number if used).</li>
+        <li>Your training backup on RunBud's servers: sessions, results and check-ins.</li>
+        <li>Your team memberships and everything you shared with coaches, trainers and nutritionists.</li>
+        <li>Your forum profile, posts and replies, and any badge application.</li>
+        <li>Everything RunBud saved on your phone, when you delete in the app (training log, imported watch data, profile and settings).</li>
+      </ul>
+
+      <h2>What may remain</h2>
+      <ul>
+        <li>Team messages you already sent. They're kept as a safety record for the school or club that runs the team, as the app explains before you message.</li>
+        <li>Purchase records kept by Apple or Google under their policies.</li>
+        <li>Emails you sent us, unless you ask us to delete them.</li>
+        <li>Backups and security logs, for a short time before they're removed.</li>
+        <li>Your Apple Health or Health Connect data, which belongs to those apps. RunBud never changes it.</li>
+      </ul>
+    </div>
+  </main>
+

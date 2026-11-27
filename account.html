@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f7fc">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("runbud-theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+  <title>Create an account | RunBud</title>
+  <meta name="description" content="Create your free RunBud account or sign in. One account for the app and the website.">
+  <meta property="og:title" content="Create an account | RunBud">
+  <meta property="og:description" content="Create your free RunBud account or sign in. One account for the app and the website.">
+  <meta property="og:image" content="https://www.myrunbud.com/RunBudAppLogo.png">
+  <link rel="icon" href="RunBudAppLogo.png">
+  <link rel="apple-touch-icon" href="RunBudAppLogo.png">
+  <link rel="preload" href="fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=20261127a">
+  <script src="site.js?v=20261127a" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <img src="RunBudAppLogo.png" alt="" width="34" height="34">
+        <span class="brand-word">RunBud</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <div class="nav-links" id="nav-links">
+          <a href="index.html#coach">RunBud Coach</a>
+          <a href="index.html#app">The app</a>
+          <a href="index.html#teams">Coaches and schools</a>
+          <a href="about.html">About</a>
+          <a href="support.html">Support</a>
+          <a href="account.html" aria-current="page">Sign in</a>
+        </div>
+        <a class="btn nav-cta" href="account.html?new=1">Create account</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">
+          <svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="policy">
+    <div class="wrap account-grid" style="max-width:var(--wrap)">
+      <div>
+        <h1 id="acct-title">Your RunBud account</h1>
+        <p class="lede">One account for the app and this site. Make it here, then sign in on your phone.</p>
+        <ul class="ticks" style="margin-top:1.5rem;max-width:30rem">
+          <li>Your log backs up to your account, so a new phone starts where you left off</li>
+          <li>See your progress on a bigger screen at <a href="hub.html">My progress</a></li>
+          <li>Join your team with a code from your coach</li>
+        </ul>
+        <p class="small" style="margin-top:1.5rem">RunBud is for people 13 and older.</p>
+      </div>
+
+      <div class="form-card" id="card">
+        <!-- Signed out -->
+        <div id="signed-out">
+          <div class="tabs" role="tablist" aria-label="Account">
+            <button role="tab" id="tab-up" aria-controls="panel" aria-selected="true" type="button">Create account</button>
+            <button role="tab" id="tab-in" aria-controls="panel" aria-selected="false" type="button" tabindex="-1">Sign in</button>
+          </div>
+          <div id="panel" role="tabpanel" aria-labelledby="tab-up"><form id="panel-form" novalidate>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="email-err">
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="pw-wrap">
+                <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8" aria-describedby="pw-hint">
+                <button class="pw-toggle" id="pw-toggle" type="button" aria-controls="password" aria-pressed="false">Show</button>
+              </div>
+              <span class="hint" id="pw-hint">At least 8 characters.</span>
+            </div>
+            <div id="up-only">
+              <label class="check"><input id="age" type="checkbox"><span>I'm 13 or older.</span></label>
+              <label class="check"><input id="terms" type="checkbox"><span>I agree to the <a href="terms.html">terms of use</a> and <a href="privacy.html">privacy policy</a>.</span></label>
+            </div>
+            <p class="form-error" id="err" role="alert" aria-live="assertive"></p>
+            <button class="btn" id="submit" type="submit">Create account</button>
+            <button class="linkish" id="forgot" type="button" hidden>Forgot your password?</button>
+          </form></div>
+        </div>
+
+        <!-- Signed in -->
+        <div id="signed-in" hidden>
+          <h2 style="font-size:2rem" tabindex="-1" id="in-title">You're in</h2>
+          <p style="margin-top:0.5rem">Signed in as <b id="who"></b>.</p>
+          <ul class="next-steps">
+            <li><a href="https://apps.apple.com/us/app/runbudapp/id6748336230"><b>Get the app</b><span>Sign in on your iPhone with this email and password.</span></a></li>
+            <li><a href="hub.html"><b>My progress and coach hub</b><span>Your training on a bigger screen, and your teams if you coach.</span></a></li>
+          </ul>
+          <p style="margin-top:1.25rem"><button class="linkish" id="signout" type="button">Sign out</button></p>
+        </div>
+        <p class="form-ok" id="ok" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="brand" href="index.html"><img src="RunBudAppLogo.png" alt="" width="34" height="34">RunBud</a>
+        <a class="btn btn-lane" href="account.html?new=1">Create a free account</a>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h2>Product</h2>
+          <ul>
+            <li><a href="account.html?new=1">Create an account</a></li>
+            <li><a href="hub.html">My progress and coach hub</a></li>
+            <li><a href="coach.html">Coach dashboard demo</a></li>
+            <li><a href="https://apps.apple.com/us/app/runbudapp/id6748336230">RunBud on the App Store</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Company</h2>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="mailto:support@myrunbud.com">support@myrunbud.com</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Legal</h2>
+          <ul>
+            <li><a href="privacy.html">Privacy policy</a></li>
+            <li><a href="terms.html">Terms of use</a></li>
+            <li><a href="data.html">Data we collect</a></li>
+            <li><a href="community.html">Community guidelines</a></li>
+            <li><a href="child-safety.html">Child safety standards</a></li>
+            <li><a href="delete-account.html">Delete your account</a></li>
+          </ul>
+        </div>
+        <div data-follow>
+          <h2>Follow</h2>
+          <div class="socials" data-socials></div>
+        </div>
+      </div>
+      <p>&copy; 2026 RunBud. RunBud gives general training information. It isn't a medical device and doesn't replace advice from a doctor or athletic trainer.</p>
+    </div>
+  </footer>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
+
+const app = initializeApp({ apiKey: 'AIzaSyA5tnGMullOJazaZsh-1EL_Ws0S4M42R7A', authDomain: 'runbud-26fe3.firebaseapp.com', projectId: 'runbud-26fe3', appId: '1:141537625664:web:12fec0edc253c8211001a5' });
+const auth = getAuth(app);
+const $ = (id) => document.getElementById(id);
+let mode = new URLSearchParams(location.search).has('new') ? 'up' : 'in';
+
+const MESSAGES = {
+  'auth/email-already-in-use': 'There is already an account with that email. Sign in instead.',
+  'auth/invalid-email': 'Enter a full email address, like name@school.edu.',
+  'auth/weak-password': 'Use a password with at least 8 characters.',
+  'auth/invalid-credential': 'That email and password don’t match. Check them, or reset your password.',
+  'auth/wrong-password': 'That email and password don’t match. Check them, or reset your password.',
+  'auth/user-not-found': 'No account uses that email. Create one instead.',
+  'auth/too-many-requests': 'Too many tries. Wait a few minutes, then try again.',
+  'auth/network-request-failed': 'You seem to be offline. Check your connection and try again.',
+};
+const say = (e) => MESSAGES[e?.code] || 'Something went wrong. Try again, or email support@myrunbud.com.';
+
+function setMode(next, focus) {
+  mode = next;
+  const up = mode === 'up';
+  $('tab-up').setAttribute('aria-selected', String(up));
+  $('tab-in').setAttribute('aria-selected', String(!up));
+  $('tab-up').tabIndex = up ? 0 : -1;
+  $('tab-in').tabIndex = up ? -1 : 0;
+  $('panel').setAttribute('aria-labelledby', up ? 'tab-up' : 'tab-in');
+  $('up-only').hidden = !up;
+  $('forgot').hidden = up;
+  $('pw-hint').hidden = !up;
+  $('password').autocomplete = up ? 'new-password' : 'current-password';
+  $('submit').textContent = up ? 'Create account' : 'Sign in';
+  $('err').textContent = '';
+  $('ok').textContent = '';
+  document.title = (up ? 'Create an account' : 'Sign in') + ' | RunBud';
+  if (focus) $(up ? 'tab-up' : 'tab-in').focus();
+}
+$('tab-up').onclick = () => setMode('up');
+$('tab-in').onclick = () => setMode('in');
+document.querySelector('[role=tablist]').addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setMode(mode === 'up' ? 'in' : 'up', true); }
+});
+$('pw-toggle').onclick = () => {
+  const show = $('password').type === 'password';
+  $('password').type = show ? 'text' : 'password';
+  $('pw-toggle').textContent = show ? 'Hide' : 'Show';
+  $('pw-toggle').setAttribute('aria-pressed', String(show));
+};
+
+function fail(msg, field) {
+  $('err').textContent = msg;
+  ['email', 'password'].forEach((f) => $(f).removeAttribute('aria-invalid'));
+  if (field) { $(field).setAttribute('aria-invalid', 'true'); $(field).focus(); }
+}
+
+$('panel-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = $('email').value.trim();
+  const password = $('password').value;
+  if (!email) return fail('Enter your email.', 'email');
+  if (!password) return fail('Enter your password.', 'password');
+  if (mode === 'up') {
+    if (password.length < 8) return fail('Use a password with at least 8 characters.', 'password');
+    if (!$('age').checked) return fail('RunBud is for people 13 and older. Check the box to confirm your age.');
+    if (!$('terms').checked) return fail('Check the box to agree to the terms and privacy policy.');
+  }
+  $('err').textContent = '';
+  ['email', 'password'].forEach((f) => $(f).removeAttribute('aria-invalid'));
+  $('submit').disabled = true;
+  $('submit').textContent = mode === 'up' ? 'Creating account…' : 'Signing in…';
+  try {
+    if (mode === 'up') await createUserWithEmailAndPassword(auth, email, password);
+    else await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    const code = err?.code || '';
+    fail(say(err), code.includes('password') || code.includes('credential') ? 'password' : code.includes('email') || code.includes('user') ? 'email' : null);
+  } finally {
+    $('submit').disabled = false;
+    $('submit').textContent = mode === 'up' ? 'Create account' : 'Sign in';
+  }
+});
+
+$('forgot').onclick = async () => {
+  const email = $('email').value.trim();
+  if (!email) return fail('Enter your email first, then choose Forgot your password.', 'email');
+  try {
+    await sendPasswordResetEmail(auth, email);
+    $('err').textContent = '';
+    $('email').removeAttribute('aria-invalid');
+    $('ok').textContent = `If there's an account for ${email}, a reset link is on its way.`;
+  } catch (err) { fail(say(err), 'email'); }
+};
+
+$('signout').onclick = () => signOut(auth);
+
+let first = true;
+onAuthStateChanged(auth, (user) => {
+  $('signed-out').hidden = !!user;
+  $('signed-in').hidden = !user;
+  if (user) {
+    $('who').textContent = user.email || 'your account';
+    $('ok').textContent = '';
+    if (!first) $('in-title').focus();
+  } else {
+    setMode(mode);
+  }
+  first = false;
+});
+</script>
+</body>
+</html>

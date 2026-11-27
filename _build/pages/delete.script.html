@@ -1,0 +1,58 @@
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, deleteUser } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
+import { getFirestore, collection, collectionGroup, doc, getDoc, getDocs, deleteDoc, query, where } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+const app = initializeApp({ apiKey: 'AIzaSyA5tnGMullOJazaZsh-1EL_Ws0S4M42R7A', authDomain: 'runbud-26fe3.firebaseapp.com', projectId: 'runbud-26fe3', appId: '1:141537625664:web:12fec0edc253c8211001a5' });
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = (id) => document.getElementById(id);
+
+$('signin-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('err').textContent = '';
+  try {
+    const c = await signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value);
+    $('who').textContent = c.user.email;
+    $('signin').hidden = true;
+    $('confirm').hidden = false; $('typed').focus();
+  } catch { $('err').textContent = 'That email and password don’t match. Check them and try again.'; }
+});
+
+const quiet = (p) => p.catch(() => null);
+$('confirm-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if ($('typed').value.trim().toUpperCase() !== 'DELETE') return ($('status').textContent = 'Type DELETE to confirm.');
+  const uid = auth.currentUser.uid;
+  $('del').disabled = true;
+  $('status').textContent = 'Deleting…';
+  for (const k of ['sessions', 'results', 'checkins']) {
+    const s = await quiet(getDocs(collection(db, 'users', uid, k)));
+    if (s) await Promise.all(s.docs.map((d) => quiet(deleteDoc(d.ref))));
+  }
+  const ms = await quiet(getDocs(query(collectionGroup(db, 'members'), where('uid', '==', uid))));
+  for (const m of ms?.docs ?? []) {
+    const teamId = m.ref.parent.parent.id;
+    for (const k of ['sessions', 'results', 'checkins']) {
+      const s = await quiet(getDocs(collection(db, 'teams', teamId, 'members', uid, k)));
+      if (s) await Promise.all(s.docs.map((d) => quiet(deleteDoc(d.ref))));
+    }
+    for (const r of ['coach', 'trainer', 'nutritionist']) await quiet(deleteDoc(doc(db, 'teams', teamId, 'members', uid, 'summary', r)));
+    await quiet(deleteDoc(doc(db, 'teams', teamId, 'directory', uid)));
+    await quiet(deleteDoc(m.ref));
+  }
+  const posts = await quiet(getDocs(query(collection(db, 'forum'), where('authorUid', '==', uid))));
+  if (posts) await Promise.all(posts.docs.map((d) => quiet(deleteDoc(d.ref))));
+  const replies = await quiet(getDocs(query(collectionGroup(db, 'replies'), where('authorUid', '==', uid))));
+  if (replies) await Promise.all(replies.docs.map((d) => quiet(deleteDoc(d.ref))));
+  await quiet(deleteDoc(doc(db, 'profiles', uid)));
+  await quiet(deleteDoc(doc(db, 'verifications', uid)));
+  try {
+    await deleteUser(auth.currentUser);
+    $('status').className = 'form-ok';
+    $('status').textContent = 'Your account and data are deleted. You can close this page.';
+  } catch {
+    $('status').className = 'form-error';
+    $('status').textContent = 'Your data was removed, but the account itself couldn’t be deleted. Email support@myrunbud.com and we’ll finish it.';
+  }
+});
+</script>

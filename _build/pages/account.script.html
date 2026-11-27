@@ -1,0 +1,111 @@
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
+
+const app = initializeApp({ apiKey: 'AIzaSyA5tnGMullOJazaZsh-1EL_Ws0S4M42R7A', authDomain: 'runbud-26fe3.firebaseapp.com', projectId: 'runbud-26fe3', appId: '1:141537625664:web:12fec0edc253c8211001a5' });
+const auth = getAuth(app);
+const $ = (id) => document.getElementById(id);
+let mode = new URLSearchParams(location.search).has('new') ? 'up' : 'in';
+
+const MESSAGES = {
+  'auth/email-already-in-use': 'There is already an account with that email. Sign in instead.',
+  'auth/invalid-email': 'Enter a full email address, like name@school.edu.',
+  'auth/weak-password': 'Use a password with at least 8 characters.',
+  'auth/invalid-credential': 'That email and password don’t match. Check them, or reset your password.',
+  'auth/wrong-password': 'That email and password don’t match. Check them, or reset your password.',
+  'auth/user-not-found': 'No account uses that email. Create one instead.',
+  'auth/too-many-requests': 'Too many tries. Wait a few minutes, then try again.',
+  'auth/network-request-failed': 'You seem to be offline. Check your connection and try again.',
+};
+const say = (e) => MESSAGES[e?.code] || 'Something went wrong. Try again, or email support@myrunbud.com.';
+
+function setMode(next, focus) {
+  mode = next;
+  const up = mode === 'up';
+  $('tab-up').setAttribute('aria-selected', String(up));
+  $('tab-in').setAttribute('aria-selected', String(!up));
+  $('tab-up').tabIndex = up ? 0 : -1;
+  $('tab-in').tabIndex = up ? -1 : 0;
+  $('panel').setAttribute('aria-labelledby', up ? 'tab-up' : 'tab-in');
+  $('up-only').hidden = !up;
+  $('forgot').hidden = up;
+  $('pw-hint').hidden = !up;
+  $('password').autocomplete = up ? 'new-password' : 'current-password';
+  $('submit').textContent = up ? 'Create account' : 'Sign in';
+  $('err').textContent = '';
+  $('ok').textContent = '';
+  document.title = (up ? 'Create an account' : 'Sign in') + ' | RunBud';
+  if (focus) $(up ? 'tab-up' : 'tab-in').focus();
+}
+$('tab-up').onclick = () => setMode('up');
+$('tab-in').onclick = () => setMode('in');
+document.querySelector('[role=tablist]').addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setMode(mode === 'up' ? 'in' : 'up', true); }
+});
+$('pw-toggle').onclick = () => {
+  const show = $('password').type === 'password';
+  $('password').type = show ? 'text' : 'password';
+  $('pw-toggle').textContent = show ? 'Hide' : 'Show';
+  $('pw-toggle').setAttribute('aria-pressed', String(show));
+};
+
+function fail(msg, field) {
+  $('err').textContent = msg;
+  ['email', 'password'].forEach((f) => $(f).removeAttribute('aria-invalid'));
+  if (field) { $(field).setAttribute('aria-invalid', 'true'); $(field).focus(); }
+}
+
+$('panel-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = $('email').value.trim();
+  const password = $('password').value;
+  if (!email) return fail('Enter your email.', 'email');
+  if (!password) return fail('Enter your password.', 'password');
+  if (mode === 'up') {
+    if (password.length < 8) return fail('Use a password with at least 8 characters.', 'password');
+    if (!$('age').checked) return fail('RunBud is for people 13 and older. Check the box to confirm your age.');
+    if (!$('terms').checked) return fail('Check the box to agree to the terms and privacy policy.');
+  }
+  $('err').textContent = '';
+  ['email', 'password'].forEach((f) => $(f).removeAttribute('aria-invalid'));
+  $('submit').disabled = true;
+  $('submit').textContent = mode === 'up' ? 'Creating account…' : 'Signing in…';
+  try {
+    if (mode === 'up') await createUserWithEmailAndPassword(auth, email, password);
+    else await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    const code = err?.code || '';
+    fail(say(err), code.includes('password') || code.includes('credential') ? 'password' : code.includes('email') || code.includes('user') ? 'email' : null);
+  } finally {
+    $('submit').disabled = false;
+    $('submit').textContent = mode === 'up' ? 'Create account' : 'Sign in';
+  }
+});
+
+$('forgot').onclick = async () => {
+  const email = $('email').value.trim();
+  if (!email) return fail('Enter your email first, then choose Forgot your password.', 'email');
+  try {
+    await sendPasswordResetEmail(auth, email);
+    $('err').textContent = '';
+    $('email').removeAttribute('aria-invalid');
+    $('ok').textContent = `If there's an account for ${email}, a reset link is on its way.`;
+  } catch (err) { fail(say(err), 'email'); }
+};
+
+$('signout').onclick = () => signOut(auth);
+
+let first = true;
+onAuthStateChanged(auth, (user) => {
+  $('signed-out').hidden = !!user;
+  $('signed-in').hidden = !user;
+  if (user) {
+    $('who').textContent = user.email || 'your account';
+    $('ok').textContent = '';
+    if (!first) $('in-title').focus();
+  } else {
+    setMode(mode);
+  }
+  first = false;
+});
+</script>

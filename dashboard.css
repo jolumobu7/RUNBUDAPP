@@ -1,3 +1,7 @@
+@font-face { font-family: "Archivo"; src: url("fonts/archivo-wdth.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url("fonts/plex-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url("fonts/plex-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url("fonts/plex-600-normal.woff2") format("woff2"); font-weight: 600 700; font-display: swap; }
 /* RunBud coach dashboard. Dark by default, light with the switch. */
 
 :root {
@@ -9,7 +13,7 @@
   --fill: rgba(255, 255, 255, 0.08);
   --ink: #f5f5f7;
   --muted: #a1a1a6;
-  --brand: #0a84ff;
+  --brand: #1a66dc;
   --brand-ink: #4da3ff;
   --brand-soft: rgba(10, 132, 255, 0.22);
   --done: #0a84ff;
@@ -179,6 +183,7 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 .seg.done { background: var(--done); }
 .seg.part { background: var(--part); }
 .seg.skip { background: var(--skip); }
+.seg.done, .seg.skip { color: #0a1630; }
 .legend { list-style: none; padding: 0; margin: 14px 0 0; display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
 .dot.done { background: var(--done); } .dot.part { background: var(--part); } .dot.skip { background: var(--skip); }

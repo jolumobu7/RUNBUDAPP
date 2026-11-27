@@ -3,54 +3,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f7fc">
   <script>
     (function () {
-      try {
-        var t = localStorage.getItem("runbud-theme");
-        document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
-      } catch (e) {
-        document.documentElement.setAttribute("data-theme", "dark");
-      }
+      var t = null;
+      try { t = localStorage.getItem("runbud-theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
     })();
   </script>
   <title>Delete your account | RunBud</title>
   <meta name="description" content="How to delete your RunBud account and the data that goes with it.">
+  <meta property="og:title" content="Delete your account | RunBud">
+  <meta property="og:description" content="How to delete your RunBud account and the data that goes with it.">
+  <meta property="og:image" content="https://www.myrunbud.com/RunBudAppLogo.png">
   <link rel="icon" href="RunBudAppLogo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261119d">
-  <script src="site.js?v=20261119d" defer></script>
-  <style>
-    .rb-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem 1.4rem; max-width: 30rem; margin: 1rem 0; }
-    .rb-card label { display: block; font-size: .9rem; color: var(--slate); margin: .8rem 0 .3rem; }
-    .rb-card input { width: 100%; box-sizing: border-box; font: inherit; padding: .7rem .8rem; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
-    .rb-card button { font: 600 1rem var(--font-body); margin-top: 1rem; padding: .7rem 1.3rem; border: 0; border-radius: 999px; background: var(--btn); color: var(--on-btn); cursor: pointer; }
-    .rb-card button.danger { background: #c81e1e; }
-    .rb-card button:disabled { opacity: .6; cursor: default; }
-    .rb-hidden { display: none; } .rb-err { color: #ef4444; } .rb-ok { color: #22c55e; }
-  </style>
+  <link rel="apple-touch-icon" href="RunBudAppLogo.png">
+  <link rel="preload" href="fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=20261127a">
+  <script src="site.js?v=20261127a" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="index.html">
-        <img src="RunBudAppLogo.png" alt="" width="36" height="36">
-        RunBud
+        <img src="RunBudAppLogo.png" alt="" width="34" height="34">
+        <span class="brand-word">RunBud</span>
       </a>
       <nav class="site-nav" aria-label="Main">
         <div class="nav-links" id="nav-links">
-          <a href="index.html#app">In the app</a>
-          <a href="index.html#coming">Coming soon</a>
-          <a href="index.html#coaches">Coaches</a>
+          <a href="index.html#coach">RunBud Coach</a>
+          <a href="index.html#app">The app</a>
+          <a href="index.html#teams">Coaches and schools</a>
           <a href="about.html">About</a>
-          <a href="index.html#support">Support</a>
+          <a href="support.html">Support</a>
+          <a href="account.html">Sign in</a>
         </div>
-        <a class="nav-demo" href="coach.html">Coach demo</a>
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme">
+        <a class="btn nav-cta" href="account.html?new=1">Create account</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme">
           <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
         </button>
@@ -74,21 +66,24 @@
       <p>If the app asks you to sign in again first, that's a security check. Sign out, sign back in, and try again.</p>
 
       <h2>On this page</h2>
-      <div class="rb-card" id="signin">
-        <strong>Sign in to delete</strong>
-        <label for="email">Email</label><input id="email" type="email" autocomplete="email">
-        <label for="password">Password</label><input id="password" type="password" autocomplete="current-password">
-        <p id="err" class="rb-err"></p>
-        <button id="go" type="button">Sign in</button>
+      <div class="form-card" id="signin">
+        <form id="signin-form" novalidate>
+          <h3 style="margin-bottom:1rem">Sign in to delete</h3>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+          <p id="err" class="form-error" role="alert"></p>
+          <button class="btn" id="go" type="submit">Sign in</button>
+        </form>
       </div>
-      <div class="rb-card rb-hidden" id="confirm">
-        <p>Signed in as <strong id="who"></strong>.</p>
-        <label for="typed">Type DELETE to confirm</label>
-        <input id="typed" autocomplete="off">
-        <button class="danger" id="del" type="button">Delete my account and data</button>
-        <p id="status"></p>
+      <div class="form-card" id="confirm" hidden>
+        <form id="confirm-form" novalidate>
+          <p>Signed in as <strong id="who"></strong>.</p>
+          <div class="field"><label for="typed">Type DELETE to confirm</label><input id="typed" type="text" autocomplete="off" autocapitalize="characters"></div>
+          <button class="btn" style="background:var(--danger)" id="del" type="submit">Delete my account and data</button>
+          <p id="status" role="status" aria-live="polite" style="margin-top:1rem"></p>
+        </form>
       </div>
-      <p>If you signed up with Apple or Google instead of a password, delete your account in the app or by email.</p>
+      <p style="margin-top:1rem">If you signed up with Apple or Google instead of a password, delete your account in the app or by email.</p>
 
       <h2>By email</h2>
       <p>If you can't get into the app, email <a href="mailto:support@myrunbud.com?subject=Delete%20my%20RunBud%20account">support@myrunbud.com</a> from the email address on your account with the subject "Delete my RunBud account." We'll confirm within 48 hours and delete it within 30 days.</p>
@@ -110,48 +105,50 @@
         <li>Backups and security logs, for a short time before they're removed.</li>
         <li>Your Apple Health or Health Connect data, which belongs to those apps. RunBud never changes it.</li>
       </ul>
-
     </div>
   </main>
-  <div class="lanes" role="presentation"></div>
 
   <footer class="site-footer">
     <div class="wrap">
+      <div class="footer-top">
+        <a class="brand" href="index.html"><img src="RunBudAppLogo.png" alt="" width="34" height="34">RunBud</a>
+        <a class="btn btn-lane" href="account.html?new=1">Create a free account</a>
+      </div>
       <div class="footer-cols">
         <div>
-          <h4>Product</h4>
+          <h2>Product</h2>
           <ul>
-            <li><a href="https://apps.apple.com/us/app/runbudapp/id6748336230">RunBud for iPhone</a></li>
-            <li><a href="hub.html">Coach hub sign in</a></li>
+            <li><a href="account.html?new=1">Create an account</a></li>
+            <li><a href="hub.html">My progress and coach hub</a></li>
             <li><a href="coach.html">Coach dashboard demo</a></li>
-            <li><a href="index.html#coming">Coming soon</a></li>
+            <li><a href="https://apps.apple.com/us/app/runbudapp/id6748336230">RunBud on the App Store</a></li>
           </ul>
         </div>
         <div>
-          <h4>Company</h4>
+          <h2>Company</h2>
           <ul>
             <li><a href="about.html">About</a></li>
-            <li><a href="index.html#support">Support</a></li>
-            <li><a href="mailto:support@myrunbud.com">Contact</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="mailto:support@myrunbud.com">support@myrunbud.com</a></li>
           </ul>
         </div>
         <div>
-          <h4>Legal</h4>
+          <h2>Legal</h2>
           <ul>
             <li><a href="privacy.html">Privacy policy</a></li>
             <li><a href="terms.html">Terms of use</a></li>
             <li><a href="data.html">Data we collect</a></li>
             <li><a href="community.html">Community guidelines</a></li>
-            <li><a href="delete-account.html">Delete your account</a></li>
             <li><a href="child-safety.html">Child safety standards</a></li>
+            <li><a href="delete-account.html">Delete your account</a></li>
           </ul>
         </div>
         <div data-follow>
-          <h4>Follow</h4>
+          <h2>Follow</h2>
           <div class="socials" data-socials></div>
         </div>
       </div>
-      <p>&copy; 2026 RunBud. RunBud is not a medical device and does not replace professional medical advice.</p>
+      <p>&copy; 2026 RunBud. RunBud gives general training information. It isn't a medical device and doesn't replace advice from a doctor or athletic trainer.</p>
     </div>
   </footer>
 <script type="module">
@@ -163,18 +160,20 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const $ = (id) => document.getElementById(id);
 
-$('go').onclick = async () => {
+$('signin-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
   $('err').textContent = '';
   try {
     const c = await signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value);
     $('who').textContent = c.user.email;
-    $('signin').classList.add('hidden');
-    $('confirm').classList.remove('hidden');
-  } catch { $('err').textContent = 'That email and password didn’t match.'; }
-};
+    $('signin').hidden = true;
+    $('confirm').hidden = false; $('typed').focus();
+  } catch { $('err').textContent = 'That email and password don’t match. Check them and try again.'; }
+});
 
 const quiet = (p) => p.catch(() => null);
-$('del').onclick = async () => {
+$('confirm-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
   if ($('typed').value.trim().toUpperCase() !== 'DELETE') return ($('status').textContent = 'Type DELETE to confirm.');
   const uid = auth.currentUser.uid;
   $('del').disabled = true;
@@ -202,13 +201,12 @@ $('del').onclick = async () => {
   await quiet(deleteDoc(doc(db, 'verifications', uid)));
   try {
     await deleteUser(auth.currentUser);
-    $('status').className = 'rb-ok';
+    $('status').className = 'form-ok';
     $('status').textContent = 'Your account and data are deleted. You can close this page.';
   } catch {
-    $('status').className = 'rb-err';
+    $('status').className = 'form-error';
     $('status').textContent = 'Your data was removed, but the account itself couldn’t be deleted. Email support@myrunbud.com and we’ll finish it.';
   }
-};
-</script>
-</body>
+});
+</script></body>
 </html>

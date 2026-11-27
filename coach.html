@@ -18,21 +18,19 @@
   <title>Coach dashboard demo | RunBud</title>
   <meta name="description" content="Preview of the RunBud coach dashboard: plan vs done, team load, check-in flags and each athlete's training, by event group.">
   <link rel="icon" href="RunBudAppLogo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="dashboard.css?v=20261119d">
+  <link rel="preload" href="fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="dashboard.css?v=20261127a">
   <script src="dashboard.js?v=20261119d" defer></script>
 </head>
 <body>
   <div class="glow" aria-hidden="true"></div>
 
-  <div class="sample-banner" role="note">
+  <aside class="sample-banner" aria-label="About this demo">
     Interactive demo with sample athletes. Nothing you change here is saved. Already have a team in the app? <a href="hub.html">Sign in to your real coach hub</a>. <a href="mailto:support@myrunbud.com?subject=RunBud%20coach%20pilot">Ask about the pilot</a>
-  </div>
+  </aside>
 
   <header class="topbar">
-    <a class="back-link" href="index.html">
+    <a class="back-link" href="index.html" aria-label="Back to RunBud">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
       <img src="RunBudAppLogo.png" alt="" width="28" height="28">
       <span>Back to RunBud</span>

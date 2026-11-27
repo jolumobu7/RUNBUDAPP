@@ -1,0 +1,58 @@
+  <main id="main" class="policy">
+    <div class="wrap account-grid" style="max-width:var(--wrap)">
+      <div>
+        <h1 id="acct-title">Your RunBud account</h1>
+        <p class="lede">One account for the app and this site. Make it here, then sign in on your phone.</p>
+        <ul class="ticks" style="margin-top:1.5rem;max-width:30rem">
+          <li>Your log backs up to your account, so a new phone starts where you left off</li>
+          <li>See your progress on a bigger screen at <a href="hub.html">My progress</a></li>
+          <li>Join your team with a code from your coach</li>
+        </ul>
+        <p class="small" style="margin-top:1.5rem">RunBud is for people 13 and older.</p>
+      </div>
+
+      <div class="form-card" id="card">
+        <!-- Signed out -->
+        <div id="signed-out">
+          <div class="tabs" role="tablist" aria-label="Account">
+            <button role="tab" id="tab-up" aria-controls="panel" aria-selected="true" type="button">Create account</button>
+            <button role="tab" id="tab-in" aria-controls="panel" aria-selected="false" type="button" tabindex="-1">Sign in</button>
+          </div>
+          <div id="panel" role="tabpanel" aria-labelledby="tab-up"><form id="panel-form" novalidate>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="email-err">
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="pw-wrap">
+                <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8" aria-describedby="pw-hint">
+                <button class="pw-toggle" id="pw-toggle" type="button" aria-controls="password" aria-pressed="false">Show</button>
+              </div>
+              <span class="hint" id="pw-hint">At least 8 characters.</span>
+            </div>
+            <div id="up-only">
+              <label class="check"><input id="age" type="checkbox"><span>I'm 13 or older.</span></label>
+              <label class="check"><input id="terms" type="checkbox"><span>I agree to the <a href="terms.html">terms of use</a> and <a href="privacy.html">privacy policy</a>.</span></label>
+            </div>
+            <p class="form-error" id="err" role="alert" aria-live="assertive"></p>
+            <button class="btn" id="submit" type="submit">Create account</button>
+            <button class="linkish" id="forgot" type="button" hidden>Forgot your password?</button>
+          </form></div>
+        </div>
+
+        <!-- Signed in -->
+        <div id="signed-in" hidden>
+          <h2 style="font-size:2rem" tabindex="-1" id="in-title">You're in</h2>
+          <p style="margin-top:0.5rem">Signed in as <b id="who"></b>.</p>
+          <ul class="next-steps">
+            <li><a href="{APP_STORE}"><b>Get the app</b><span>Sign in on your iPhone with this email and password.</span></a></li>
+            <li><a href="hub.html"><b>My progress and coach hub</b><span>Your training on a bigger screen, and your teams if you coach.</span></a></li>
+          </ul>
+          <p style="margin-top:1.25rem"><button class="linkish" id="signout" type="button">Sign out</button></p>
+        </div>
+        <p class="form-ok" id="ok" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </main>
+
