@@ -1,5 +1,7 @@
 import pathlib
 from chrome import page, APP_STORE
+from explorer import SCRIPT as EX_SCRIPT
+import pages_ex
 
 SITE = pathlib.Path(__file__).resolve().parent.parent
 P = pathlib.Path(__file__).parent / 'pages'
@@ -21,9 +23,9 @@ pages = {
                          r('account.body.html'), 'signin', scripts=r('account.script.html')),
     'delete-account.html': page('Delete your account | RunBud', 'How to delete your RunBud account and the data that goes with it.',
                                 r('delete.body.html'), scripts=r('delete.script.html')),
-    'coaches.html': page('For coaches and schools | RunBud', 'How RunBud works for coaches, athletic trainers, nutritionists and school administrators: teams, sharing, posting workouts, the web hub and message safety.', r('coaches.body.html'), 'coaches'),
-    'athletes.html': page('For athletes | RunBud', 'How RunBud works for athletes: Today, RunBud Coach, logging, recovery, progress, teams and sharing, and privacy.', r('athletes.body.html'), 'athletes'),
-    'features.html': page('Every feature | RunBud', 'Documentation for every feature in RunBud 2.0: where to find it and what it does.', r('features.body.html'), 'features', scripts=r('features.script.html')),
+    'coaches.html': page('For coaches and schools | RunBud', 'How RunBud works for coaches, athletic trainers, nutritionists and school administrators: teams, sharing, posting workouts, the web hub and message safety.', pages_ex.coaches_body(r('coaches.body.html')), 'coaches', scripts=EX_SCRIPT),
+    'athletes.html': page('For athletes | RunBud', 'How RunBud works for athletes: Today, RunBud Coach, logging, recovery, progress, teams and sharing, and privacy.', pages_ex.athletes_body(r('athletes.body.html')), 'athletes', scripts=EX_SCRIPT),
+    'features.html': page('Every feature | RunBud', 'Documentation for every feature in RunBud 2.0: where to find it and what it does.', pages_ex.features_body(APP_STORE), 'features', scripts=EX_SCRIPT),
     'support.html': page('Support | RunBud', 'Get help with RunBud: report a bug, report a message, reset your password or delete your account.',
                          r('support.body.html'), 'support'),
     'about.html': policy('about', 'about'),
