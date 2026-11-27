@@ -35,9 +35,9 @@ HEAD = """<!doctype html>
 """
 
 NAV = [
-    ("index.html#coach", "RunBud Coach", "coach"),
-    ("index.html#app", "The app", "app"),
-    ("index.html#teams", "Coaches and schools", "teams"),
+    ("athletes.html", "Athletes", "athletes"),
+    ("coaches.html", "Coaches and schools", "coaches"),
+    ("features.html", "Features", "features"),
     ("about.html", "About", "about"),
     ("support.html", "Support", "support"),
     ("account.html", "Sign in", "signin"),
@@ -77,6 +77,9 @@ FOOTER = """  <footer class="site-footer">
         <div>
           <h2>Product</h2>
           <ul>
+            <li><a href="athletes.html">For athletes</a></li>
+            <li><a href="coaches.html">For coaches and schools</a></li>
+            <li><a href="features.html">Every feature</a></li>
             <li><a href="account.html?new=1">Create an account</a></li>
             <li><a href="hub.html">My progress and coach hub</a></li>
             <li><a href="coach.html">Coach dashboard demo</a></li>

@@ -1,0 +1,16 @@
+<script>
+(function () {
+  var q = document.getElementById("doc-q"); if (!q) return;
+  var feats = Array.prototype.slice.call(document.querySelectorAll(".feat"));
+  var groups = Array.prototype.slice.call(document.querySelectorAll(".doc-grp"));
+  var count = document.getElementById("doc-count"), empty = document.getElementById("doc-empty");
+  function run() {
+    var t = q.value.trim().toLowerCase(), shown = 0;
+    feats.forEach(function (f) { var hit = !t || f.textContent.toLowerCase().indexOf(t) !== -1; f.hidden = !hit; if (hit) shown++; });
+    groups.forEach(function (g) { g.hidden = !g.querySelector(".feat:not([hidden])"); });
+    count.textContent = t ? shown + (shown === 1 ? " feature matches" : " features match") : "";
+    empty.hidden = shown !== 0;
+  }
+  q.addEventListener("input", run);
+})();
+</script>
