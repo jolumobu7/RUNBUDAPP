@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coach hub and my progress | RunBud</title>
+<link rel="icon" href="RunBudAppLogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ground:#F2F2F4; --card:#fff; --ink:#0B0B0F; --muted:#6B6B73; --border:#E4E4E8; --accent:#007AFF; --danger:#C81E1E; --green:#22C55E; --yellow:#EAB308; --red:#EF4444; }
+  @media (prefers-color-scheme: dark) { :root { --ground:#000; --card:#141417; --ink:#fff; --muted:#A1A1AA; --border:#26262B; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink); font:15px/1.45 Inter, system-ui, sans-serif; }
+  header { display:flex; align-items:center; gap:16px; padding:16px 24px; border-bottom:1px solid var(--border); background:var(--card); position:sticky; top:0; z-index:2; }
+  header h1 { font:700 22px 'Bricolage Grotesque', sans-serif; margin:0; flex:1; }
+  main { max-width:1180px; margin:0 auto; padding:24px; }
+  .card { background:var(--card); border-radius:20px; padding:20px; margin-bottom:16px; }
+  .hero { background:#0B0B0F; color:#fff; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .muted { color:var(--muted); }
+  .small { font-size:13px; }
+  button, .btn { font:600 14px Inter, sans-serif; border:0; border-radius:999px; padding:10px 18px; cursor:pointer; background:var(--accent); color:#fff; }
+  button.ghost { background:transparent; color:var(--ink); border:1px solid var(--border); }
+  button.danger { background:transparent; color:var(--danger); border:1px solid var(--border); }
+  input, select, textarea { font:15px Inter, sans-serif; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--ink); width:100%; }
+  label { display:block; font-size:13px; color:var(--muted); margin:10px 0 4px; }
+  .tabs { display:flex; gap:6px; background:var(--border); padding:4px; border-radius:999px; width:max-content; margin-bottom:16px; }
+  .tabs button { background:transparent; color:var(--ink); }
+  .tabs button.on { background:var(--ink); color:var(--card); }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:16px; }
+  .stat b { display:block; font:700 26px 'Bricolage Grotesque', sans-serif; }
+  table { width:100%; border-collapse:collapse; }
+  th { text-align:left; font:600 12px Inter; color:var(--muted); padding:10px 12px; border-bottom:1px solid var(--border); cursor:pointer; white-space:nowrap; }
+  td { padding:12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  tr.click:hover { background:rgba(0,122,255,.06); cursor:pointer; }
+  .dot { width:12px; height:12px; border-radius:6px; display:inline-block; background:var(--border); }
+  .green { background:var(--green); } .yellow { background:var(--yellow); } .red { background:var(--red); }
+  .flag { color:var(--danger); font-size:13px; }
+  .chip { display:inline-block; padding:6px 12px; border-radius:999px; border:1px solid var(--border); font-size:13px; cursor:pointer; margin:0 6px 6px 0; }
+  .chip.on { background:var(--ink); color:var(--card); border-color:var(--ink); }
+  .code { font:700 36px 'Bricolage Grotesque', sans-serif; letter-spacing:6px; }
+  .hidden { display:none !important; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:800px) { .grid2 { grid-template-columns:1fr; } main { padding:16px; } .hide-sm { display:none; } }
+  @media print { header, .tabs, button, .noprint { display:none !important; } body { background:#fff; color:#000; } .card { padding:0; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>RunBud</h1>
+  <nav id="nav" class="tabs hidden" style="margin:0"><button data-view="progress">My progress</button><button data-view="hub" class="hidden">Coach hub</button><button data-view="school" class="hidden">School</button></nav>
+  <select id="teamPick" class="hidden" style="width:auto"></select>
+  <span id="who" class="muted small"></span>
+  <button id="signOut" class="ghost hidden">Sign out</button>
+</header>
+<main>
+  <section id="signIn" class="card" style="max-width:420px;margin:48px auto">
+    <h2 style="font:700 28px 'Bricolage Grotesque';margin:0 0 6px">Sign in</h2>
+    <p class="muted">Use the same account as the RunBud app.</p>
+    <label>Email</label><input id="email" type="email" autocomplete="email">
+    <label>Password</label><input id="password" type="password" autocomplete="current-password">
+    <p id="authErr" class="flag"></p>
+    <button id="signInBtn" style="width:100%">Sign in</button>
+    <p class="small muted">No account yet? Create one in the RunBud app, then make your team in Team › Create a team.</p>
+  </section>
+
+  <section id="noTeams" class="card hidden">
+    <h2>No coaching teams on this account</h2>
+    <p class="muted">Create a team in the RunBud app (Team › Create a team), or join one as staff with a staff code.</p>
+  </section>
+
+  <section id="hub" class="hidden">
+    <div class="tabs noprint">
+      <button data-tab="roster" class="on">Athletes</button>
+      <button data-tab="workouts">Workouts</button>
+      <button data-tab="messages">Messages</button>
+      <button data-tab="invite">Invite</button>
+    </div>
+
+    <div id="tab-roster">
+      <div class="stats">
+        <div class="card stat"><span class="muted small">Athletes</span><b id="sCount">0</b></div>
+        <div class="card stat"><span class="muted small">Checked in today</span><b id="sChecked">0</b></div>
+        <div class="card stat"><span class="muted small">Need attention</span><b id="sFlag">0</b></div>
+      </div>
+      <div class="row noprint" style="margin-bottom:12px">
+        <div id="groupChips"></div>
+        <span style="flex:1"></span>
+        <button class="ghost" id="csv">Export CSV</button>
+        <button class="ghost" onclick="window.print()">Print</button>
+        <button class="ghost" id="refresh">Refresh</button>
+      </div>
+      <div class="card" style="padding:0;overflow:auto">
+        <table>
+          <thead><tr>
+            <th data-sort="light"></th><th data-sort="name">Athlete</th><th data-sort="group">Group</th><th data-sort="checkin">Check-in</th>
+            <th data-sort="week">This week</th><th data-sort="load">Load</th><th class="hide-sm">Flags</th><th class="hide-sm">Last session</th><th class="hide-sm">Bests</th>
+          </tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="small muted">Blank means the athlete hasn’t shared that with your role or hasn’t checked in. Sorted red, yellow, green.</p>
+
+      <div id="detail" class="card hidden">
+        <div class="row"><h2 id="dName" style="margin:0;flex:1"></h2><button class="ghost noprint" id="dClose">Close</button></div>
+        <p id="dMeta" class="muted"></p>
+        <div class="grid2">
+          <div><h3>Check-ins</h3><table><tbody id="dCheckins"></tbody></table></div>
+          <div><h3>Results</h3><table><tbody id="dResults"></tbody></table></div>
+        </div>
+        <h3>Training (last 60 days)</h3><table><tbody id="dSessions"></tbody></table>
+      </div>
+    </div>
+
+    <div id="tab-workouts" class="hidden">
+      <div class="grid2">
+        <div class="card" id="postCard">
+          <h2 style="margin-top:0" id="postTitle">Post a workout</h2>
+          <label>Day</label><input id="pDay" type="date">
+          <label>Title</label><input id="pName" placeholder="Speed endurance">
+          <label>Type</label>
+          <select id="pType"><option>Sprints</option><option>Tempo</option><option>Workout</option><option>Easy run</option><option>Long run</option><option>Weight room</option><option>Cross-train</option><option>Meet</option><option>Rest</option></select>
+          <label>Workout (one part per line, "Label: details")</label>
+          <textarea id="pParts" rows="6">Warm-up: Jog, drills, build-ups
+Main set:
+Cool-down: Easy jog, stretch</textarea>
+          <div class="row"><div style="flex:1"><label>Minutes</label><input id="pMin" type="number" value="75"></div><div style="flex:1"><label>Effort 1–10</label><input id="pEff" type="number" min="1" max="10" value="7"></div></div>
+          <label>Notes</label><input id="pNotes" placeholder="Spikes. Indoor track.">
+          <label>Who sees it</label>
+          <select id="pAud"><option value="all">Whole team</option><option>Sprints</option><option>Hurdles</option><option>Mid-distance</option><option>Distance</option><option>Jumps</option><option>Throws</option><option>Multis</option></select>
+          <label>When athletes see it</label>
+          <select id="pWhen"><option value="now">Visible now</option><option value="nightBefore">Night before, 8 PM</option><option value="morning">That day, 6 AM</option><option value="noon">That day, noon</option></select>
+          <p id="postErr" class="flag"></p>
+          <div class="row"><button id="postBtn">Post</button><button class="ghost hidden" id="cancelEdit">Cancel edit</button></div>
+        </div>
+        <div><h2 style="margin-top:0">Posted</h2><div id="planList"></div></div>
+      </div>
+    </div>
+
+    <div id="tab-messages" class="hidden">
+      <p class="small muted">Chats that include a coach are visible to every coach on the team. Your school’s administrators can read team messages. Messages can’t be edited or deleted.</p>
+      <div class="grid2"><div class="card" style="padding:0" id="chatList"></div><div class="card" id="chatView"><p class="muted">Pick a chat.</p></div></div>
+    </div>
+
+    <div id="tab-invite" class="hidden">
+      <div class="card hero"><div class="small" style="opacity:.7">ATHLETE CODE</div><div class="code" id="aCode"></div><p style="opacity:.8">Athletes enter this in RunBud › Team › Join a team. They choose what you see.</p></div>
+      <div class="card" id="staffCard"><div class="small muted">STAFF CODE</div><div class="code" id="stCode"></div><p class="muted">Only for other coaches, athletic trainers and nutritionists.</p></div>
+    </div>
+  </section>
+
+  <section id="progress" class="hidden">
+    <div class="stats">
+      <div class="card stat"><span class="muted small">Sessions (last 4 weeks)</span><b id="pSess">0</b></div>
+      <div class="card stat"><span class="muted small">Minutes (last 4 weeks)</span><b id="pMin">0</b></div>
+      <div class="card stat"><span class="muted small">Check-ins (last 4 weeks)</span><b id="pCi">0</b></div>
+    </div>
+    <div class="card"><h3 style="margin-top:0">Training minutes per week</h3><div id="pWeeks"></div></div>
+    <div class="grid2">
+      <div class="card"><h3 style="margin-top:0">Personal bests</h3><table><tbody id="pBests"></tbody></table></div>
+      <div class="card"><h3 style="margin-top:0">PR progression</h3><select id="pEvent" style="width:auto;margin-bottom:8px"></select><div id="pChart"></div></div>
+    </div>
+    <div class="card"><h3 style="margin-top:0">Recent sessions</h3><table><tbody id="pRecent"></tbody></table></div>
+    <p class="small muted">This is your private backup from the app (signed in). Only you can see it.</p>
+  </section>
+
+  <section id="school" class="hidden">
+    <select id="schoolPick" style="width:auto;margin-bottom:12px" class="hidden"></select>
+    <div class="card hero"><div class="small" style="opacity:.7">COACH LINK CODE</div><div class="code" id="scLink"></div><p style="opacity:.8">Coaches link their team in RunBud: team › Invite › Link to your school.</p></div>
+    <div class="grid2">
+      <div><h3>Teams</h3><div id="scTeams"></div></div>
+      <div><h3 id="scTeamTitle">Messages</h3><div class="card" style="padding:0" id="scChats"><p class="muted" style="padding:16px">Pick a team.</p></div><div class="card" id="scChatView" style="margin-top:12px"><p class="muted">Pick a chat.</p></div></div>
+    </div>
+    <p class="small muted">You can read every chat on linked teams, including athlete-to-athlete, and hide a message (the record stays). Training and health data stays private.</p>
+  </section>
+</main>
+
+<script type="module">
+// Fill in from Firebase console › Project settings › Your apps › Web app (same values as the app's .env).
+const firebaseConfig = {
+  apiKey: 'AIzaSyA5tnGMullOJazaZsh-1EL_Ws0S4M42R7A',
+  authDomain: 'runbud-26fe3.firebaseapp.com',
+  projectId: 'runbud-26fe3',
+  appId: '1:141537625664:web:12fec0edc253c8211001a5',
+};
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
+import { getFirestore, collection, collectionGroup, doc, getDoc, getDocs, onSnapshot, query, where, setDoc, deleteDoc, addDoc, updateDoc, orderBy, limit, serverTimestamp, Timestamp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const GROUPS = { Sprints: ['55m','60m','100m','200m','300m','400m'], Hurdles: ['55m H','60m H','100m H','110m H','300m H','400m H'], 'Mid-distance': ['500m','600m','800m','1000m','1500m','Mile'], Distance: ['3000m','3200m','5000m','10,000m','Steeplechase','Cross country'], Jumps: ['Long jump','Triple jump','High jump','Pole vault'], Throws: ['Shot put','Discus','Hammer','Weight throw','Javelin'], Multis: ['Pentathlon','Heptathlon','Decathlon'] };
+const groupsOf = (events = []) => Object.keys(GROUPS).filter((g) => GROUPS[g].some((e) => events.includes(e)));
+const dayKey = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const fmt = (iso) => (iso ? new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '—');
+
+let state = { schools: [], teams: [], team: null, role: null, members: [], summaries: {}, plans: [], group: 'All', sort: 'light', editing: null, unsub: [] };
+
+$('signInBtn').onclick = async () => {
+  $('authErr').textContent = '';
+  try { await signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value); }
+  catch (e) { $('authErr').textContent = 'That email and password didn’t match.'; }
+};
+$('signOut').onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, async (user) => {
+  state.unsub.forEach((f) => f()); state.unsub = [];
+  $('signIn').classList.toggle('hidden', !!user);
+  $('signOut').classList.toggle('hidden', !user);
+  $('who').textContent = user ? user.email : '';
+  ['hub', 'noTeams', 'teamPick', 'progress', 'school', 'nav'].forEach((x) => $(x).classList.add('hidden'));
+  if (!user) return;
+  const ms = await getDocs(query(collectionGroup(db, 'members'), where('uid', '==', user.uid))).catch(() => ({ docs: [] }));
+  state.teams = [];
+  for (const m of ms.docs) {
+    const role = m.data().role;
+    if (role === 'athlete') continue;
+    const t = await getDoc(m.ref.parent.parent);
+    if (t.exists()) state.teams.push({ id: t.id, name: t.data().name, role });
+  }
+  const ad = await getDocs(query(collectionGroup(db, 'admins'), where('uid', '==', user.uid))).catch(() => ({ docs: [] }));
+  state.schools = [];
+  for (const a of ad.docs) {
+    const sd = await getDoc(a.ref.parent.parent).catch(() => null);
+    if (sd?.exists()) state.schools.push({ id: sd.id, name: sd.data().name });
+  }
+  $('nav').classList.remove('hidden');
+  document.querySelector('[data-view=hub]').classList.toggle('hidden', !state.teams.length);
+  document.querySelector('[data-view=school]').classList.toggle('hidden', !state.schools.length);
+  showView(state.schools.length ? 'school' : state.teams.length ? 'hub' : 'progress');
+});
+
+function showView(v) {
+  document.querySelectorAll('#nav button').forEach((b) => b.classList.toggle('on', b.dataset.view === v));
+  ['progress', 'hub', 'school', 'noTeams'].forEach((x) => $(x).classList.add('hidden'));
+  $('teamPick').classList.add('hidden');
+  if (v === 'progress') { $('progress').classList.remove('hidden'); loadProgress(); }
+  if (v === 'school') { $('school').classList.remove('hidden'); openSchoolPicker(); }
+  if (v === 'hub') openHub();
+}
+document.querySelectorAll('#nav button').forEach((b) => (b.onclick = () => showView(b.dataset.view)));
+
+function openHub() {
+  if (!state.teams.length) return $('noTeams').classList.remove('hidden');
+  $('teamPick').innerHTML = state.teams.map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join('');
+  $('teamPick').classList.toggle('hidden', state.teams.length < 2);
+  $('teamPick').onchange = () => openTeam($('teamPick').value);
+  openTeam(state.teams[0].id);
+}
+
+async function openTeam(id) {
+  state.unsub.forEach((f) => f()); state.unsub = [];
+  const t = state.teams.find((x) => x.id === id);
+  state.team = t; state.role = t.role; state.group = 'All';
+  $('hub').classList.remove('hidden');
+  document.querySelectorAll('.tabs button[data-tab]').forEach((x) => x.classList.toggle('on', x.dataset.tab === 'roster'));
+  ['roster', 'workouts', 'messages', 'invite'].forEach((x) => $('tab-' + x).classList.toggle('hidden', x !== 'roster'));
+  document.title = `${t.name} · RunBud Coach Hub`;
+  const codes = await getDoc(doc(db, 'teams', id, 'private', 'codes')).catch(() => null);
+  $('aCode').textContent = codes?.data()?.athleteCode ?? '';
+  $('stCode').textContent = codes?.data()?.staffCode ?? '';
+  $('staffCard').classList.toggle('hidden', t.role !== 'coach');
+  $('postCard').classList.toggle('hidden', t.role !== 'coach');
+  state.unsub.push(onSnapshot(collection(db, 'teams', id, 'members'), async (s) => {
+    state.members = s.docs.map((d) => d.data());
+    await loadSummaries();
+  }));
+  const since = dayKey(new Date(Date.now() - 7 * 864e5));
+  state.unsub.push(onSnapshot(query(collection(db, 'teams', id, 'plans'), where('day', '>=', since)), (s) => {
+    state.plans = s.docs.map((d) => ({ id: d.id, ...d.data(), visibleFrom: d.data().visibleFrom?.toMillis?.() ?? 0 })).sort((a, b) => a.day.localeCompare(b.day));
+    renderPlans();
+  }));
+}
+
+async function loadSummaries() {
+  const athletes = state.members.filter((m) => m.role === 'athlete');
+  await Promise.all(athletes.map(async (m) => {
+    const s = await getDoc(doc(db, 'teams', state.team.id, 'members', m.uid, 'summary', state.role)).catch(() => null);
+    state.summaries[m.uid] = s?.exists() ? s.data() : null;
+  }));
+  renderRoster();
+}
+$('refresh').onclick = loadSummaries;
+
+const lightRank = { red: 0, yellow: 1, green: 2 };
+function rowsData() {
+  const today = new Date().toDateString();
+  return state.members.filter((m) => m.role === 'athlete')
+    .filter((m) => state.group === 'All' || groupsOf(m.events).includes(state.group))
+    .map((m) => {
+      const s = state.summaries[m.uid] || {};
+      return { m, s, light: s.light ?? null, name: m.name, group: groupsOf(m.events).join(', '),
+        checkin: s.lastCheckIn ? (new Date(s.lastCheckIn).toDateString() === today ? 'Today' : fmt(s.lastCheckIn)) : '—',
+        week: s.weekPlanned ? `${Math.round((s.weekDone / s.weekPlanned) * 100)}% of plan` : s.weekMinutes ? `${s.weekMinutes} min` : '—',
+        load: s.loadRatio != null ? s.loadRatio.toFixed(2) + '×' : '—',
+        flags: [s.ill ? 'Sick' : '', s.pain ? `Pain: ${s.pain}` : ''].filter(Boolean).join(' · '),
+        last: s.lastSession ?? '—', bests: (s.bests || []).map((b) => `${b.event} ${b.mark}`).join(', ') };
+    })
+    .sort((a, b) => state.sort === 'light' ? ((a.light ? lightRank[a.light] : 3) - (b.light ? lightRank[b.light] : 3)) || a.name.localeCompare(b.name) : String(a[state.sort]).localeCompare(String(b[state.sort])));
+}
+
+function renderRoster() {
+  const athletes = state.members.filter((m) => m.role === 'athlete');
+  const all = ['All', ...new Set(athletes.flatMap((m) => groupsOf(m.events)))];
+  $('groupChips').innerHTML = all.length > 2 ? all.map((g) => `<span class="chip ${g === state.group ? 'on' : ''}" data-g="${esc(g)}">${esc(g)}</span>`).join('') : '';
+  $('groupChips').querySelectorAll('.chip').forEach((c) => (c.onclick = () => { state.group = c.dataset.g; renderRoster(); }));
+  const today = new Date().toDateString();
+  $('sCount').textContent = athletes.length;
+  $('sChecked').textContent = athletes.filter((m) => state.summaries[m.uid]?.lastCheckIn && new Date(state.summaries[m.uid].lastCheckIn).toDateString() === today).length;
+  const flagged = athletes.filter((m) => { const s = state.summaries[m.uid]; return s && (s.pain || s.ill || s.light === 'red'); }).length;
+  $('sFlag').textContent = flagged; $('sFlag').style.color = flagged ? 'var(--danger)' : '';
+  const rows = rowsData();
+  $('rows').innerHTML = rows.length ? rows.map((r) => `<tr class="click" data-uid="${esc(r.m.uid)}">
+    <td><span class="dot ${r.light ?? ''}"></span></td><td><b>${esc(r.name)}</b><div class="small muted">${esc(r.m.level || '')}</div></td>
+    <td>${esc(r.group)}</td><td>${esc(r.checkin)}</td><td>${esc(r.week)}</td><td style="${r.s.loadRatio > 1.3 ? 'color:var(--danger)' : ''}">${esc(r.load)}</td>
+    <td class="hide-sm flag">${esc(r.flags)}</td><td class="hide-sm small">${esc(r.last)}</td><td class="hide-sm small">${esc(r.bests)}</td></tr>`).join('')
+    : `<tr><td colspan="9" class="muted">No athletes yet. Share the athlete code from Invite.</td></tr>`;
+  $('rows').querySelectorAll('tr.click').forEach((tr) => (tr.onclick = () => openAthlete(tr.dataset.uid)));
+}
+document.querySelectorAll('th[data-sort]').forEach((th) => (th.onclick = () => { state.sort = th.dataset.sort; renderRoster(); }));
+
+$('csv').onclick = () => {
+  const rows = rowsData();
+  const head = ['Athlete', 'Group', 'Readiness', 'Check-in', 'This week', 'Load', 'Flags', 'Last session', 'Bests'];
+  const q = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const csv = [head, ...rows.map((r) => [r.name, r.group, r.light ?? '', r.checkin, r.week, r.load, r.flags, r.last, r.bests])].map((l) => l.map(q).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = `${state.team.name} ${dayKey(new Date())}.csv`;
+  a.click();
+};
+
+async function openAthlete(uid) {
+  const m = state.members.find((x) => x.uid === uid);
+  const shared = m.share?.[state.role] ?? [];
+  $('detail').classList.remove('hidden');
+  $('dName').textContent = m.name;
+  const s = state.summaries[uid] || {};
+  $('dMeta').textContent = [groupsOf(m.events).join(', '), m.level, `Shares with ${state.role}s: ${shared.join(', ') || 'nothing yet'}`, (s.reasons || []).join(' · ')].filter(Boolean).join(' · ');
+  const get = async (kind) => shared.includes(kind) ? (await getDocs(collection(db, 'teams', state.team.id, 'members', uid, kind))).docs.map((d) => d.data()).sort((a, b) => b.date.localeCompare(a.date)) : [];
+  const [ci, res, ses] = await Promise.all([get('checkins'), get('results'), get('sessions')]);
+  $('dCheckins').innerHTML = ci.slice(0, 14).map((c) => `<tr><td>${fmt(c.date)}</td><td class="small">Sleep ${c.sleepHours} h · sore ${c.soreness}/5 · energy ${c.energy}/5 · stress ${c.stress}/5 ${c.hasPain ? `<span class="flag">Pain ${esc(c.painArea)}</span>` : ''} ${c.ill ? '<span class="flag">Sick</span>' : ''}</td></tr>`).join('') || '<tr><td class="muted">Not shared</td></tr>';
+  $('dResults').innerHTML = res.slice(0, 20).map((r) => `<tr><td>${fmt(r.date)}</td><td><b>${esc(r.event)} ${esc(r.mark)}</b></td><td class="small muted">${esc(r.kind === 'Time trial' ? 'Time trial' : r.meet)}</td></tr>`).join('') || '<tr><td class="muted">Not shared</td></tr>';
+  $('dSessions').innerHTML = ses.slice(0, 40).map((x) => `<tr><td>${fmt(x.date)}</td><td><b>${esc(x.title || x.type)}</b>${x.completed ? '' : ' <span class="muted">(planned)</span>'}<div class="small muted">${esc(x.reps || (x.parts || []).map((p) => p.detail).join(' · '))}</div>${x.splits?.length ? `<div class="small muted">Splits ${x.splits.map((v) => v.toFixed(1)).join(', ')}</div>` : ''}</td><td class="small">${x.actualMinutes ? x.actualMinutes + ' min' : ''}${x.effort != null ? ' · ' + x.effort + '/10' : ''}</td></tr>`).join('') || '<tr><td class="muted">Not shared</td></tr>';
+  $('detail').scrollIntoView({ behavior: 'smooth' });
+}
+$('dClose').onclick = () => $('detail').classList.add('hidden');
+
+document.querySelectorAll('.tabs button[data-tab]').forEach((b) => (b.onclick = () => {
+  document.querySelectorAll('.tabs button[data-tab]').forEach((x) => x.classList.toggle('on', x === b));
+  ['roster', 'workouts', 'messages', 'invite'].forEach((t) => $('tab-' + t).classList.toggle('hidden', t !== b.dataset.tab));
+  if (b.dataset.tab === 'messages') loadChats(state.team.id, 'staff', $('chatList'), $('chatView'));
+}));
+
+// Posting workouts
+$('pDay').value = dayKey(new Date(Date.now() + 864e5));
+function visibleAt(day, w) {
+  const [y, m, d] = day.split('-').map(Number);
+  if (w === 'now') return Date.now() - 60000;
+  if (w === 'nightBefore') return new Date(y, m - 1, d - 1, 20).getTime();
+  return new Date(y, m - 1, d, w === 'morning' ? 6 : 12).getTime();
+}
+$('postBtn').onclick = async () => {
+  $('postErr').textContent = '';
+  const day = $('pDay').value;
+  if (!day) return ($('postErr').textContent = 'Pick a day.');
+  const type = $('pType').value;
+  const parts = $('pParts').value.split('\n').map((l, i) => { const k = l.indexOf(':'); return { id: `w${Date.now()}-${i}`, label: k > 0 ? l.slice(0, k).trim() : '', detail: (k > 0 ? l.slice(k + 1) : l).trim() }; }).filter((p) => p.detail || p.label);
+  const plan = { day, title: $('pName').value.trim() || type, type, parts, plannedMinutes: type === 'Rest' ? null : Number($('pMin').value) || null, plannedEffort: type === 'Rest' ? null : Math.min(10, Math.max(1, Number($('pEff').value) || 6)), notes: $('pNotes').value.trim(), audience: $('pAud').value, visibleFrom: Timestamp.fromMillis(visibleAt(day, $('pWhen').value)), postedBy: auth.currentUser.uid, postedByName: auth.currentUser.email.split('@')[0], updatedAt: serverTimestamp() };
+  try {
+    const ref = state.editing ? doc(db, 'teams', state.team.id, 'plans', state.editing) : doc(collection(db, 'teams', state.team.id, 'plans'));
+    await setDoc(ref, plan);
+    state.editing = null; $('postTitle').textContent = 'Post a workout'; $('postBtn').textContent = 'Post'; $('cancelEdit').classList.add('hidden');
+    $('pName').value = ''; $('pNotes').value = '';
+  } catch (e) { $('postErr').textContent = 'Couldn’t post. Only coaches can post workouts.'; }
+};
+$('cancelEdit').onclick = () => { state.editing = null; $('postTitle').textContent = 'Post a workout'; $('postBtn').textContent = 'Post'; $('cancelEdit').classList.add('hidden'); };
+
+function renderPlans() {
+  $('planList').innerHTML = state.plans.length ? state.plans.map((p) => {
+    const hidden = p.visibleFrom > Date.now();
+    const d = new Date(p.day + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+    return `<div class="card"><div class="small muted">${esc(d.toUpperCase())} · ${esc(p.audience === 'all' ? 'Everyone' : p.audience)} · ${hidden ? 'Hidden until ' + new Date(p.visibleFrom).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' }) : 'Visible'}</div>
+      <h3 style="margin:6px 0">${esc(p.title)}</h3>${(p.parts || []).map((x) => `<div class="small">${x.label ? '<b>' + esc(x.label) + ':</b> ' : ''}${esc(x.detail)}</div>`).join('')}
+      ${p.notes ? `<p class="small muted">${esc(p.notes)}</p>` : ''}
+      ${state.role === 'coach' ? `<div class="row noprint" style="margin-top:8px"><button class="ghost" data-edit="${p.id}">Edit</button><button class="danger" data-del="${p.id}">Delete</button></div>` : ''}</div>`;
+  }).join('') : '<p class="muted">Nothing posted yet.</p>';
+  $('planList').querySelectorAll('[data-del]').forEach((b) => (b.onclick = async () => { if (confirm('Delete this workout?')) await deleteDoc(doc(db, 'teams', state.team.id, 'plans', b.dataset.del)); }));
+  $('planList').querySelectorAll('[data-edit]').forEach((b) => (b.onclick = () => {
+    const p = state.plans.find((x) => x.id === b.dataset.edit);
+    state.editing = p.id; $('postTitle').textContent = 'Edit workout'; $('postBtn').textContent = 'Save'; $('cancelEdit').classList.remove('hidden');
+    $('pDay').value = p.day; $('pName').value = p.title; $('pType').value = p.type; $('pParts').value = (p.parts || []).map((x) => (x.label ? x.label + ': ' : '') + x.detail).join('\n');
+    $('pMin').value = p.plannedMinutes ?? ''; $('pEff').value = p.plannedEffort ?? ''; $('pNotes').value = p.notes ?? ''; $('pAud').value = p.audience; $('pWhen').value = p.visibleFrom <= Date.now() ? 'now' : 'morning';
+    $('postCard').scrollIntoView({ behavior: 'smooth' });
+  }));
+}
+
+// ---------- Messages (coach hub and school) ----------
+const msOf = (v) => (v?.toMillis ? v.toMillis() : 0);
+const titleOf = (c, me) => c.kind === 'team' ? `${c.name || 'Team'} (everyone)` : c.kind === 'group' ? c.name : (c.members || []).filter((u) => u !== me).map((u) => (c.memberNames || {})[u] || 'Member').join(', ') || 'Direct message';
+let chatUnsub = [];
+async function loadChats(teamId, mode, listEl, viewEl) {
+  chatUnsub.forEach((f) => f()); chatUnsub = [];
+  const me = auth.currentUser.uid;
+  const col = collection(db, 'teams', teamId, 'chats');
+  const qs = mode === 'school' ? [query(col)] : [query(col, where('kind', '==', 'team')), query(col, where('members', 'array-contains', me)), query(col, where('hasStaff', '==', true))];
+  const parts = {};
+  const render = () => {
+    const all = {};
+    Object.values(parts).forEach((m) => Object.assign(all, m));
+    const list = Object.values(all).sort((a, b) => (a.kind === 'team' ? -1 : b.kind === 'team' ? 1 : msOf(b.lastAt) - msOf(a.lastAt)));
+    listEl.innerHTML = list.length ? list.map((c) => `<div class="click" data-c="${esc(c.id)}" style="padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer"><b>${esc(titleOf(c, me))}</b><div class="small muted">${esc(c.lastText || 'No messages yet')}</div></div>`).join('') : '<p class="muted" style="padding:16px">No chats yet.</p>';
+    listEl.querySelectorAll('[data-c]').forEach((el) => (el.onclick = () => openChat(teamId, all[el.dataset.c], mode, viewEl)));
+  };
+  qs.forEach((q, i) => chatUnsub.push(onSnapshot(q, (snap) => { parts[i] = Object.fromEntries(snap.docs.map((d) => [d.id, { id: d.id, ...d.data() }])); render(); }, () => {})));
+}
+let msgUnsub = null;
+function openChat(teamId, c, mode, viewEl) {
+  msgUnsub?.();
+  const me = auth.currentUser.uid;
+  const canSend = mode !== 'school' && (c.kind === 'team' || (c.members || []).includes(me));
+  viewEl.innerHTML = `<h3 style="margin-top:0">${esc(titleOf(c, me))}</h3><div id="msgs" style="max-height:420px;overflow:auto"></div>${canSend ? '<div class="row" style="margin-top:10px"><input id="msgText" placeholder="Message" style="flex:1"><button id="msgSend">Send</button></div><p id="msgErr" class="flag"></p>' : ''}`;
+  msgUnsub = onSnapshot(query(collection(db, 'teams', teamId, 'chats', c.id, 'messages'), orderBy('createdAt', 'desc'), limit(200)), (snap) => {
+    const ms = snap.docs.map((d) => ({ id: d.id, ...d.data() })).reverse();
+    const box = viewEl.querySelector('#msgs');
+    box.innerHTML = ms.map((m) => `<div style="margin:8px 0;${m.authorUid === me ? 'text-align:right' : ''}"><div class="small muted">${esc(m.authorName)} · ${new Date(msOf(m.createdAt) || Date.now()).toLocaleString()}</div><div style="display:inline-block;padding:8px 12px;border-radius:14px;background:${m.authorUid === me ? 'var(--accent);color:#fff' : 'var(--ground)'};${m.hidden ? 'opacity:.5;font-style:italic' : ''}">${m.hidden ? (mode === 'school' ? '[hidden] ' + esc(m.text) : 'This message was removed.') : esc(m.text)}</div>${mode === 'school' && !m.hidden ? ` <button class="danger" data-hide="${m.id}" style="padding:4px 10px;font-size:12px">Hide</button>` : ''}${m.authorUid !== me ? ` <button class="ghost" data-report="${m.id}" style="padding:4px 10px;font-size:12px">Report</button>` : ''}</div>`).join('') || '<p class="muted">No messages yet.</p>';
+    box.scrollTop = box.scrollHeight;
+    box.querySelectorAll('[data-hide]').forEach((b) => (b.onclick = () => updateDoc(doc(db, 'teams', teamId, 'chats', c.id, 'messages', b.dataset.hide), { hidden: true })));
+    box.querySelectorAll('[data-report]').forEach((b) => (b.onclick = async () => {
+      const m = ms.find((x) => x.id === b.dataset.report);
+      await addDoc(collection(db, 'reports'), { path: `teams/${teamId}/chats/${c.id}/messages/${m.id}`, kind: 'message', excerpt: String(m.text).slice(0, 300), authorUid: m.authorUid, authorName: m.authorName, reporterUid: me, reason: 'Reported from the website', createdAt: serverTimestamp(), resolved: false });
+      b.textContent = 'Reported'; b.disabled = true;
+    }));
+  });
+  if (canSend) {
+    const send = async () => {
+      const t = viewEl.querySelector('#msgText').value.trim();
+      if (!t) return;
+      if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(t) || /[\w.+-]+@[\w-]+\.[\w.]+/.test(t)) return (viewEl.querySelector('#msgErr').textContent = 'Don’t share phone numbers or emails.');
+      try {
+        await addDoc(collection(db, 'teams', teamId, 'chats', c.id, 'messages'), { authorUid: me, authorName: auth.currentUser.email.split('@')[0], text: t.slice(0, 2000), createdAt: serverTimestamp(), hidden: false });
+        await updateDoc(doc(db, 'teams', teamId, 'chats', c.id), { lastText: t.slice(0, 120), lastAt: serverTimestamp() }).catch(() => {});
+        viewEl.querySelector('#msgText').value = '';
+      } catch { viewEl.querySelector('#msgErr').textContent = 'Couldn’t send.'; }
+    };
+    viewEl.querySelector('#msgSend').onclick = send;
+    viewEl.querySelector('#msgText').onkeydown = (e) => e.key === 'Enter' && send();
+  }
+}
+
+// ---------- School administrators ----------
+async function openSchoolPicker() {
+  $('schoolPick').innerHTML = state.schools.map((x) => `<option value="${x.id}">${esc(x.name)}</option>`).join('');
+  $('schoolPick').classList.toggle('hidden', state.schools.length < 2);
+  $('schoolPick').onchange = () => openSchool($('schoolPick').value);
+  if (state.schools[0]) openSchool(state.schools[0].id);
+}
+async function openSchool(id) {
+  const codes = await getDoc(doc(db, 'schools', id, 'private', 'codes')).catch(() => null);
+  $('scLink').textContent = codes?.data()?.linkCode ?? '';
+  const teams = (await getDocs(collection(db, 'schools', id, 'teams')).catch(() => ({ docs: [] }))).docs.map((d) => ({ id: d.id, ...d.data() }));
+  $('scTeams').innerHTML = teams.length ? teams.map((t) => `<div class="card click" data-t="${esc(t.id)}" style="cursor:pointer"><b>${esc(t.name)}</b><div class="small muted" id="ros-${esc(t.id)}">Tap to open messages and roster</div></div>`).join('') : '<p class="muted">No teams linked yet. Give coaches the link code above.</p>';
+  $('scTeams').querySelectorAll('[data-t]').forEach((el) => (el.onclick = async () => {
+    const t = teams.find((x) => x.id === el.dataset.t);
+    $('scTeamTitle').textContent = `${t.name} · messages`;
+    loadChats(t.id, 'school', $('scChats'), $('scChatView'));
+    const dir = (await getDocs(collection(db, 'teams', t.id, 'directory')).catch(() => ({ docs: [] }))).docs.map((d) => d.data());
+    $('ros-' + t.id).textContent = dir.length ? dir.map((p) => `${p.name} (${p.role})`).join(', ') : 'No roster yet';
+  }));
+}
+
+// ---------- My progress (athlete's private backup) ----------
+const secs = (m) => { const t = String(m).trim(); if (!/^[0-9:.]+$/.test(t)) return null; return t.split(':').reduce((a, p) => a * 60 + Number(p), 0); };
+async function loadProgress() {
+  const me = auth.currentUser.uid;
+  const get = async (k) => (await getDocs(collection(db, 'users', me, k)).catch(() => ({ docs: [] }))).docs.map((d) => d.data());
+  const [ses, res, ci] = await Promise.all([get('sessions'), get('results'), get('checkins')]);
+  const since = Date.now() - 28 * 864e5;
+  const done = ses.filter((x) => x.completed);
+  $('pSess').textContent = done.filter((x) => new Date(x.date) >= since).length;
+  $('pMin').textContent = done.filter((x) => new Date(x.date) >= since).reduce((a, x) => a + (x.actualMinutes || 0), 0);
+  $('pCi').textContent = ci.filter((x) => new Date(x.date) >= since).length;
+  // minutes per week, last 12 weeks
+  const mon = (d) => { const x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x.getTime(); };
+  const thisMon = mon(new Date());
+  const weeks = Array.from({ length: 12 }, (_, i) => thisMon - (11 - i) * 7 * 864e5);
+  const mins = weeks.map((w) => done.filter((x) => mon(x.date) === w).reduce((a, x) => a + (x.actualMinutes || 0), 0));
+  const max = Math.max(60, ...mins);
+  $('pWeeks').innerHTML = `<svg viewBox="0 0 600 160" width="100%" height="160">${mins.map((m, i) => `<rect x="${i * 50 + 8}" y="${140 - (m / max) * 120}" width="34" height="${(m / max) * 120}" rx="6" fill="var(--accent)"></rect><text x="${i * 50 + 25}" y="156" font-size="10" text-anchor="middle" fill="var(--muted)">${new Date(weeks[i]).toLocaleDateString(undefined, { month: 'numeric', day: 'numeric' })}</text>${m ? `<text x="${i * 50 + 25}" y="${134 - (m / max) * 120}" font-size="10" text-anchor="middle" fill="var(--muted)">${m}</text>` : ''}`).join('')}</svg>`;
+  // bests
+  const byEvent = {};
+  res.forEach((r) => { const v = secs(r.mark); if (v == null) return; (byEvent[r.event] ||= []).push({ ...r, v }); });
+  const events = Object.keys(byEvent).sort();
+  $('pBests').innerHTML = events.map((e) => { const b = byEvent[e].reduce((a, x) => (x.v < a.v ? x : a)); return `<tr><td><b>${esc(e)}</b></td><td>${esc(b.mark)}</td><td class="small muted">${fmt(b.date)}</td></tr>`; }).join('') || '<tr><td class="muted">No results yet. Log races and time trials in the app.</td></tr>';
+  $('pEvent').innerHTML = events.map((e) => `<option>${esc(e)}</option>`).join('');
+  const chart = () => {
+    const pts = (byEvent[$('pEvent').value] || []).sort((a, b) => a.date.localeCompare(b.date));
+    if (pts.length < 2) return ($('pChart').innerHTML = '<p class="muted small">Log at least two marks in this event to see a trend.</p>');
+    const lo = Math.min(...pts.map((p) => p.v)), hi = Math.max(...pts.map((p) => p.v)), span = hi - lo || 1;
+    const xy = pts.map((p, i) => [20 + (i / (pts.length - 1)) * 540, 20 + ((p.v - lo) / span) * 110]);
+    $('pChart').innerHTML = `<svg viewBox="0 0 580 160" width="100%" height="160"><polyline fill="none" stroke="var(--accent)" stroke-width="3" points="${xy.map((p) => p.join(',')).join(' ')}"/>${xy.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--accent)"/><text x="${p[0]}" y="${p[1] - 8}" font-size="10" text-anchor="middle" fill="var(--muted)">${esc(pts[i].mark)}</text>`).join('')}</svg><p class="small muted">Faster is higher on the chart.</p>`;
+  };
+  $('pEvent').onchange = chart; chart();
+  $('pRecent').innerHTML = [...done].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 15).map((x) => `<tr><td>${fmt(x.date)}</td><td><b>${esc(x.title || x.type)}</b><div class="small muted">${esc(x.reps || (x.parts || []).map((p) => p.detail).join(' · '))}</div></td><td class="small">${x.actualMinutes ? x.actualMinutes + ' min' : ''}${x.effort != null ? ' · ' + x.effort + '/10' : ''}</td></tr>`).join('') || '<tr><td class="muted">Nothing yet. Sign in to the app and your log backs up here.</td></tr>';
+}
+</script>
+</body>
+</html>

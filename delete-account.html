@@ -23,6 +23,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20261119d">
   <script src="site.js?v=20261119d" defer></script>
+  <style>
+    .rb-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem 1.4rem; max-width: 30rem; margin: 1rem 0; }
+    .rb-card label { display: block; font-size: .9rem; color: var(--slate); margin: .8rem 0 .3rem; }
+    .rb-card input { width: 100%; box-sizing: border-box; font: inherit; padding: .7rem .8rem; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+    .rb-card button { font: 600 1rem var(--font-body); margin-top: 1rem; padding: .7rem 1.3rem; border: 0; border-radius: 999px; background: var(--btn); color: var(--on-btn); cursor: pointer; }
+    .rb-card button.danger { background: #c81e1e; }
+    .rb-card button:disabled { opacity: .6; cursor: default; }
+    .rb-hidden { display: none; } .rb-err { color: #ef4444; } .rb-ok { color: #22c55e; }
+  </style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -55,7 +64,7 @@
   <main id="main" class="policy">
     <div class="wrap">
       <h1>Delete your account</h1>
-      <p class="meta">You can delete your RunBud account at any time.</p>
+      <p class="meta">You can delete your RunBud account at any time, in the app or right here. You don't need to reinstall the app.</p>
 
       <h2>In the app</h2>
       <ol>
@@ -64,23 +73,44 @@
       </ol>
       <p>If the app asks you to sign in again first, that's a security check. Sign out, sign back in, and try again.</p>
 
+      <h2>On this page</h2>
+      <div class="rb-card" id="signin">
+        <strong>Sign in to delete</strong>
+        <label for="email">Email</label><input id="email" type="email" autocomplete="email">
+        <label for="password">Password</label><input id="password" type="password" autocomplete="current-password">
+        <p id="err" class="rb-err"></p>
+        <button id="go" type="button">Sign in</button>
+      </div>
+      <div class="rb-card rb-hidden" id="confirm">
+        <p>Signed in as <strong id="who"></strong>.</p>
+        <label for="typed">Type DELETE to confirm</label>
+        <input id="typed" autocomplete="off">
+        <button class="danger" id="del" type="button">Delete my account and data</button>
+        <p id="status"></p>
+      </div>
+      <p>If you signed up with Apple or Google instead of a password, delete your account in the app or by email.</p>
+
       <h2>By email</h2>
       <p>If you can't get into the app, email <a href="mailto:support@myrunbud.com?subject=Delete%20my%20RunBud%20account">support@myrunbud.com</a> from the email address on your account with the subject "Delete my RunBud account." We'll confirm within 48 hours and delete it within 30 days.</p>
 
       <h2>What gets deleted</h2>
       <ul>
         <li>Your sign-in account (email, password, phone number if used).</li>
-        <li>Everything RunBud saved on your phone: training log, results, check-ins, imported watch data, profile and settings.</li>
-        <li>When team features launch: anything synced to RunBud's servers and your team memberships.</li>
+        <li>Your training backup on RunBud's servers: sessions, results and check-ins.</li>
+        <li>Your team memberships and everything you shared with coaches, trainers and nutritionists.</li>
+        <li>Your forum profile, posts and replies, and any badge application.</li>
+        <li>Everything RunBud saved on your phone, when you delete in the app (training log, imported watch data, profile and settings).</li>
       </ul>
 
       <h2>What may remain</h2>
       <ul>
-        <li>Purchase records kept by Apple under Apple's policy.</li>
+        <li>Team messages you already sent. They're kept as a safety record for the school or club that runs the team, as the app explains before you message.</li>
+        <li>Purchase records kept by Apple or Google under their policies.</li>
         <li>Emails you sent us, unless you ask us to delete them.</li>
         <li>Backups and security logs, for a short time before they're removed.</li>
-        <li>Your Apple Health data, which belongs to the Health app. RunBud never changes it.</li>
+        <li>Your Apple Health or Health Connect data, which belongs to those apps. RunBud never changes it.</li>
       </ul>
+
     </div>
   </main>
   <div class="lanes" role="presentation"></div>
@@ -92,6 +122,7 @@
           <h4>Product</h4>
           <ul>
             <li><a href="https://apps.apple.com/us/app/runbudapp/id6748336230">RunBud for iPhone</a></li>
+            <li><a href="hub.html">Coach hub sign in</a></li>
             <li><a href="coach.html">Coach dashboard demo</a></li>
             <li><a href="index.html#coming">Coming soon</a></li>
           </ul>
@@ -112,6 +143,7 @@
             <li><a href="data.html">Data we collect</a></li>
             <li><a href="community.html">Community guidelines</a></li>
             <li><a href="delete-account.html">Delete your account</a></li>
+            <li><a href="child-safety.html">Child safety standards</a></li>
           </ul>
         </div>
         <div data-follow>
@@ -122,5 +154,61 @@
       <p>&copy; 2026 RunBud. RunBud is not a medical device and does not replace professional medical advice.</p>
     </div>
   </footer>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, deleteUser } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
+import { getFirestore, collection, collectionGroup, doc, getDoc, getDocs, deleteDoc, query, where } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+const app = initializeApp({ apiKey: 'AIzaSyA5tnGMullOJazaZsh-1EL_Ws0S4M42R7A', authDomain: 'runbud-26fe3.firebaseapp.com', projectId: 'runbud-26fe3', appId: '1:141537625664:web:12fec0edc253c8211001a5' });
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = (id) => document.getElementById(id);
+
+$('go').onclick = async () => {
+  $('err').textContent = '';
+  try {
+    const c = await signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value);
+    $('who').textContent = c.user.email;
+    $('signin').classList.add('hidden');
+    $('confirm').classList.remove('hidden');
+  } catch { $('err').textContent = 'That email and password didn’t match.'; }
+};
+
+const quiet = (p) => p.catch(() => null);
+$('del').onclick = async () => {
+  if ($('typed').value.trim().toUpperCase() !== 'DELETE') return ($('status').textContent = 'Type DELETE to confirm.');
+  const uid = auth.currentUser.uid;
+  $('del').disabled = true;
+  $('status').textContent = 'Deleting…';
+  for (const k of ['sessions', 'results', 'checkins']) {
+    const s = await quiet(getDocs(collection(db, 'users', uid, k)));
+    if (s) await Promise.all(s.docs.map((d) => quiet(deleteDoc(d.ref))));
+  }
+  const ms = await quiet(getDocs(query(collectionGroup(db, 'members'), where('uid', '==', uid))));
+  for (const m of ms?.docs ?? []) {
+    const teamId = m.ref.parent.parent.id;
+    for (const k of ['sessions', 'results', 'checkins']) {
+      const s = await quiet(getDocs(collection(db, 'teams', teamId, 'members', uid, k)));
+      if (s) await Promise.all(s.docs.map((d) => quiet(deleteDoc(d.ref))));
+    }
+    for (const r of ['coach', 'trainer', 'nutritionist']) await quiet(deleteDoc(doc(db, 'teams', teamId, 'members', uid, 'summary', r)));
+    await quiet(deleteDoc(doc(db, 'teams', teamId, 'directory', uid)));
+    await quiet(deleteDoc(m.ref));
+  }
+  const posts = await quiet(getDocs(query(collection(db, 'forum'), where('authorUid', '==', uid))));
+  if (posts) await Promise.all(posts.docs.map((d) => quiet(deleteDoc(d.ref))));
+  const replies = await quiet(getDocs(query(collectionGroup(db, 'replies'), where('authorUid', '==', uid))));
+  if (replies) await Promise.all(replies.docs.map((d) => quiet(deleteDoc(d.ref))));
+  await quiet(deleteDoc(doc(db, 'profiles', uid)));
+  await quiet(deleteDoc(doc(db, 'verifications', uid)));
+  try {
+    await deleteUser(auth.currentUser);
+    $('status').className = 'rb-ok';
+    $('status').textContent = 'Your account and data are deleted. You can close this page.';
+  } catch {
+    $('status').className = 'rb-err';
+    $('status').textContent = 'Your data was removed, but the account itself couldn’t be deleted. Email support@myrunbud.com and we’ll finish it.';
+  }
+};
+</script>
 </body>
 </html>
